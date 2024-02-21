@@ -4,15 +4,19 @@ import com.flightsearch.models.User;
 import com.flightsearch.services.UserDBService;
 import com.flightsearch.tdo.user.CreateUserTDO;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
+
 @RestController
 @RequestMapping("/user")
+@Validated
 public class PersonController {
     @Autowired
     private UserDBService userDB;
@@ -34,7 +38,7 @@ public class PersonController {
             summary = "Регистрация пользователя",
             description = "Позволяет зарегистрировать пользователя"
     )
-    public User create(@RequestBody CreateUserTDO user) {
+    public User create(@RequestBody @Valid CreateUserTDO user) {
         return userDB.save(user);
     }
 
