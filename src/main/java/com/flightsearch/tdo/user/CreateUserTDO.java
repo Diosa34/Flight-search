@@ -19,41 +19,53 @@ import java.util.Date;
 @AllArgsConstructor
 public class CreateUserTDO implements TDO<User> {
     @Schema(description = "Имя", example = "Иван")
-    @NotEmpty
+    @NotBlank
     @Size(min = 3, max = 30)
     private String name;
-    @NotEmpty
+
+    @NotBlank
     @Size(min = 3, max = 30)
     @Schema(description = "Фамилия", example = "Иванов")
     private String surname;
+
     @Null
     @Size(min = 3, max = 30)
     @Schema(description = "Отчество", example = "Иванович")
     private String patronymic;
-    @NotNull
+
+    @Null
     @Schema(description = "Пол", example = "MALE")
     private Gender gender;
-    @NotNull
+
+    @Null
     @Schema(description = "Дата рождения")
     private Date dateOfBirth;
-    @NotEmpty
+
+    @Null
     @Size(min = 3, max = 255)
     private String country;
-    @NotNull
+
+    @Null
     @Schema(description = "Тип документа")
     private DocumentType documentType;
-    @NotEmpty
+
+    @Null
+    @Size(min = 1, max = 30)
     private String documentNumber;
-    @NotEmpty
+
+    @NotBlank
     @Size(max = 30)
     private String telephone;
-    @NotEmpty
+
+    @NotBlank
     @Email
     private String email;
-    @NotEmpty
+
+    @NotBlank
     @Size(min = 3, max = 30)
     private String login;
-    @NotEmpty
+
+    @NotBlank
     @Size(max = 30)
     private String password;
 
@@ -68,6 +80,7 @@ public class CreateUserTDO implements TDO<User> {
                 .documentType(documentType)
                 .telephone(telephone)
                 .email(email)
-                .login(login).build();
+                .login(login)
+                .passwordHash(password).build();
     }
 }
