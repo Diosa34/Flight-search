@@ -2,7 +2,7 @@ package com.flightsearch.services;
 
 import com.flightsearch.models.User;
 import com.flightsearch.repositories.UserRepository;
-import com.flightsearch.tdo.TDO;
+import com.flightsearch.schemas.BaseSchema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,11 +11,10 @@ import java.util.Optional;
 
 @Service
 public class UserDBService {
-
     @Autowired
     private UserRepository repository;
 
-    public User save(TDO<User> userTDO) {
+    public User save(BaseSchema<User> userTDO) {
         return repository.save(userTDO.toModel());
     }
 

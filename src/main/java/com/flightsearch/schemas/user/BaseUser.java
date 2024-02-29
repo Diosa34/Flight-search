@@ -1,23 +1,18 @@
-package com.flightsearch.tdo.user;
+package com.flightsearch.schemas.user;
 
-import com.flightsearch.models.DocumentType;
 import com.flightsearch.models.Gender;
 import com.flightsearch.models.User;
-import com.flightsearch.tdo.TDO;
+import com.flightsearch.schemas.BaseSchema;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-
-@Schema(description = "Схема регистрации")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class CreateUserTDO implements TDO<User> {
+public class BaseUser implements BaseSchema<User, User.UserBuilder> {
     @Schema(description = "Имя", example = "Иван")
     @NotBlank
     @Size(min = 3, max = 30)
@@ -28,30 +23,15 @@ public class CreateUserTDO implements TDO<User> {
     @Schema(description = "Фамилия", example = "Иванов")
     private String surname;
 
-    @Null
     @Size(min = 3, max = 30)
     @Schema(description = "Отчество", example = "Иванович")
     private String patronymic;
 
-    @Null
     @Schema(description = "Пол", example = "MALE")
     private Gender gender;
 
-    @Null
     @Schema(description = "Дата рождения")
     private Date dateOfBirth;
-
-    @Null
-    @Size(min = 3, max = 255)
-    private String country;
-
-    @Null
-    @Schema(description = "Тип документа")
-    private DocumentType documentType;
-
-    @Null
-    @Size(min = 1, max = 30)
-    private String documentNumber;
 
     @NotBlank
     @Size(max = 30)
@@ -65,22 +45,39 @@ public class CreateUserTDO implements TDO<User> {
     @Size(min = 3, max = 30)
     private String login;
 
-    @NotBlank
-    @Size(max = 30)
-    private String password;
+    @Override
+    public void fillFromModel(User model) {
+        this.name = model.getName();
+        this.surname = model.getSurname();
+        this.patronymic = model.getPatronymic();
+        this.gender = model.getGender();
+        this.dateOfBirth = model.getDateOfBirth();
+        this.telephone = model.getTelephone();
+        this.email = model.getEmail();
+        this.login = model.getLogin();
+    }
 
-    public User toModel() {
+    @Override
+    public void updateModel(User user) {
+        this
+    }
+
+    @Override
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+    public User.UserBuilder createAndFillModelBuilder() {
         return User.builder()
                 .name(name)
                 .surname(surname)
                 .patronymic(patronymic)
                 .gender(gender)
                 .dateOfBirth(dateOfBirth)
-                .country(country)
-                .documentType(documentType)
                 .telephone(telephone)
                 .email(email)
-                .login(login)
-                .passwordHash(password).build();
+                .login(login);
+    }
+
+    @Override
+    public User toModel() {
+        return this.createAndFillModelBuilder().build();
     }
 }

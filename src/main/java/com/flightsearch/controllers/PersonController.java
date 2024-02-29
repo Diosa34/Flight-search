@@ -2,7 +2,8 @@ package com.flightsearch.controllers;
 
 import com.flightsearch.models.User;
 import com.flightsearch.services.UserDBService;
-import com.flightsearch.tdo.user.CreateUserTDO;
+import com.flightsearch.schemas.user.CreateUserTDO;
+import com.flightsearch.schemas.user.OutUser;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,14 +39,14 @@ public class PersonController {
             summary = "Регистрация пользователя",
             description = "Позволяет зарегистрировать пользователя"
     )
-    public User create(@RequestBody @Valid CreateUserTDO user) {
-        return userDB.save(user);
+    public OutUser create(@RequestBody @Valid CreateUserTDO user) {
+        return new OutUser(userDB.save(user));
     }
 
     // update a user
     @PutMapping
-    public User update(@RequestBody User user) {
-        return userDB.save(user);
+    public OutUser update(@RequestBody User user) {
+        return new OutUser(userDB.save(user));
     }
 
     // delete a user

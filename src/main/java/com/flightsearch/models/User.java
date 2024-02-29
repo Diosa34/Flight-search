@@ -35,14 +35,6 @@ public class User {
 
     private Date dateOfBirth;
 
-    private String country;
-
-    @Enumerated(EnumType.STRING)
-    private DocumentType documentType;
-
-    @Column(length = 30)
-    private String documentNumber;
-
     @Column(length = 30, nullable = false, unique = true)
     private String telephone;
 
