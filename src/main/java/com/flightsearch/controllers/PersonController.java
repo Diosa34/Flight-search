@@ -1,6 +1,7 @@
 package com.flightsearch.controllers;
 
 import com.flightsearch.models.User;
+import com.flightsearch.schemas.user.AuthUser;
 import com.flightsearch.schemas.user.BaseUser;
 import com.flightsearch.schemas.user.CreateUser;
 import com.flightsearch.services.UserDBService;
@@ -47,6 +48,16 @@ public class PersonController {
         return schema;
     }
 
+    @PostMapping
+    @Operation(
+            summary = "Аутентификация пользователя",
+            description = "Проверяет, что пользователь есть в базе данных"
+    )
+    public void authenticate(@RequestBody @Valid AuthUser user) {
+        OutUser schema = new OutUser();
+        schema.fromModel(userDB.findByLogin(user.getLogin()));
+    }
+
     // update a user
     @PutMapping("/{id}")
     public OutUser update(@PathVariable Long id, @RequestBody @Valid BaseUser userData) {
@@ -58,7 +69,6 @@ public class PersonController {
     }
 
     // delete a user
-    @ResponseStatus(HttpStatus.NO_CONTENT) // 204
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id) {
         userDB.deleteById(id);

@@ -35,6 +35,15 @@ public class UserDBService {
         return user.get();
     }
 
+    public User findByLogin(String login) {
+        Optional<User> user = repository.findByLogin(login);
+        if (user.isEmpty()) {
+            throw new NotFoundException();
+        }
+        return user.get();
+    }
+
+
     public void deleteById(Long id) {
         repository.deleteById(id);
     }
