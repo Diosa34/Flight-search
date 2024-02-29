@@ -1,5 +1,6 @@
 package com.flightsearch.controllers;
 
+import com.flightsearch.exceptions.NotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -27,5 +28,12 @@ public class ErrorHandlingControllerAdvice {
             errors.put(fieldName, errorMessage);
         });
         return errors;
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(value = NotFoundException.class)
+    public String handleNotFoundExceptions(NotFoundException ignoredEx) {
+        return "Object not found";
     }
 }

@@ -1,8 +1,9 @@
 package com.flightsearch.controllers;
 
 import com.flightsearch.models.User;
+import com.flightsearch.schemas.user.BaseUser;
+import com.flightsearch.schemas.user.CreateUser;
 import com.flightsearch.services.UserDBService;
-import com.flightsearch.schemas.user.CreateUserTDO;
 import com.flightsearch.schemas.user.OutUser;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -12,7 +13,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController
@@ -28,8 +28,10 @@ public class PersonController {
     }
 
     @GetMapping("/{id}")
-    public Optional<User> findById(@PathVariable Long id) {
-        return userDB.findById(id);
+    public OutUser findById(@PathVariable Long id) {
+        OutUser schema = new OutUser();
+        schema.fromModel(userDB.findById(id));
+        return schema;
     }
 
     // create a person
@@ -39,14 +41,20 @@ public class PersonController {
             summary = "Регистрация пользователя",
             description = "Позволяет зарегистрировать пользователя"
     )
-    public OutUser create(@RequestBody @Valid CreateUserTDO user) {
-        return new OutUser(userDB.save(user));
+    public OutUser create(@RequestBody @Valid CreateUser user) {
+        OutUser schema = new OutUser();
+        schema.fromModel(userDB.save(user));
+        return schema;
     }
 
     // update a user
-    @PutMapping
-    public OutUser update(@RequestBody User user) {
-        return new OutUser(userDB.save(user));
+    @PutMapping("/{id}")
+    public OutUser update(@PathVariable Long id, @RequestBody @Valid BaseUser userData) {
+        User user = userDB.findById(id);
+        userData.updateModel(user);
+        OutUser schema = new OutUser();
+        schema.fromModel(userDB.save(userData));
+        return schema;
     }
 
     // delete a user

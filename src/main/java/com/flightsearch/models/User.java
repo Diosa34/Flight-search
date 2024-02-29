@@ -46,4 +46,8 @@ public class User {
 
     @Column(nullable = false)
     private String passwordHash;
+
+    public void setPassword(String password) {
+        this.passwordHash = password;
+    }
 }

@@ -2,7 +2,7 @@ package com.flightsearch.schemas.user;
 
 import com.flightsearch.models.Gender;
 import com.flightsearch.models.User;
-import com.flightsearch.schemas.BaseSchema;
+import com.flightsearch.schemas.ModelSchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -12,7 +12,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class BaseUser implements BaseSchema<User, User.UserBuilder> {
+public class BaseUser implements ModelSchema<User> {
     @Schema(description = "Имя", example = "Иван")
     @NotBlank
     @Size(min = 3, max = 30)
@@ -46,7 +46,7 @@ public class BaseUser implements BaseSchema<User, User.UserBuilder> {
     private String login;
 
     @Override
-    public void fillFromModel(User model) {
+    public void fromModel(User model) {
         this.name = model.getName();
         this.surname = model.getSurname();
         this.patronymic = model.getPatronymic();
@@ -58,26 +58,21 @@ public class BaseUser implements BaseSchema<User, User.UserBuilder> {
     }
 
     @Override
-    public void updateModel(User user) {
-        this
-    }
-
-    @Override
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
-    public User.UserBuilder createAndFillModelBuilder() {
-        return User.builder()
-                .name(name)
-                .surname(surname)
-                .patronymic(patronymic)
-                .gender(gender)
-                .dateOfBirth(dateOfBirth)
-                .telephone(telephone)
-                .email(email)
-                .login(login);
+    public void updateModel(User model) {
+        model.setName(this.name);
+        model.setSurname(this.surname);
+        model.setPatronymic(this.patronymic);
+        model.setGender(this.gender);
+        model.setDateOfBirth(this.dateOfBirth);
+        model.setTelephone(this.telephone);
+        model.setEmail(this.email);
+        model.setLogin(this.login);
     }
 
     @Override
     public User toModel() {
-        return this.createAndFillModelBuilder().build();
+        User newUser = new User();
+        this.updateModel(newUser);
+        return newUser;
     }
 }

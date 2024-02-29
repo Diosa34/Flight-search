@@ -15,7 +15,7 @@ public interface ModelSchema<Model> {
      * Заполняет поля схемы (TDO).
      * @param model - экземпляр модели из которого необходимо взять данные для заполнения поле схемы (TDO).
      */
-    void fillFromModel(Model model);
+    void fromModel(Model model);
 
     /**
      * Обновляет все поля в экземпляре модели (сущности), значения берутся из полей схемы (TDO).

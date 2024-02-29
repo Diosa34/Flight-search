@@ -1,8 +1,9 @@
 package com.flightsearch.services;
 
+import com.flightsearch.exceptions.NotFoundException;
 import com.flightsearch.models.User;
 import com.flightsearch.repositories.UserRepository;
-import com.flightsearch.schemas.BaseSchema;
+import com.flightsearch.schemas.ModelSchema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +15,8 @@ public class UserDBService {
     @Autowired
     private UserRepository repository;
 
-    public User save(BaseSchema<User> userTDO) {
-        return repository.save(userTDO.toModel());
+    public User save(ModelSchema<User> userSchema) {
+        return repository.save(userSchema.toModel());
     }
 
     public User save(User user) {
@@ -26,8 +27,12 @@ public class UserDBService {
         return repository.findAll();
     }
 
-    public Optional<User> findById(Long id) {
-        return repository.findById(id);
+    public User findById(Long id) {
+        Optional<User> user = repository.findById(id);
+        if (user.isEmpty()) {
+            throw new NotFoundException();
+        }
+        return user.get();
     }
 
     public void deleteById(Long id) {

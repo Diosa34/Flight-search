@@ -13,25 +13,15 @@ public class OutUser extends BaseUser {
     @Positive
     public Long id;
 
-    public OutUser(User user) {
-        this.setId(user.getId());
-        this.setEmail(user.getEmail());
-        this.setGender(user.getGender());
-        this.setLogin(user.getLogin());
-        this.setName(user.getName());
-        this.setSurname(user.getSurname());
-        this.setDateOfBirth(user.getDateOfBirth());
-        this.setTelephone(user.getTelephone());
-        this.setPatronymic(user.getPatronymic());
-    }
-
     @Override
-    public void fillFromModel(User model) {
+    public void fromModel(User model) {
+        super.fromModel(model);
         this.id = model.getId();
     }
 
     @Override
-    public User.UserBuilder createAndFillModelBuilder() {
-        return super.createAndFillModelBuilder().id(id);
+    public void updateModel(User model) {
+        super.updateModel(model);
+        model.setId(this.id);
     }
 }
