@@ -50,7 +50,7 @@ public class PersonController {
         return schema;
     }
 
-    @PostMapping
+    @PostMapping("/auth")
     @Operation(
             summary = "Аутентификация пользователя",
             description = "Проверяет, что пользователь есть в базе данных"
