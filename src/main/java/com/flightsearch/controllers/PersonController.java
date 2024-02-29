@@ -1,5 +1,6 @@
 package com.flightsearch.controllers;
 
+import com.flightsearch.exceptions.NotAuthorizedException;
 import com.flightsearch.models.User;
 import com.flightsearch.schemas.user.AuthUser;
 import com.flightsearch.schemas.user.BaseUser;
@@ -14,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 
 @RestController
@@ -53,9 +55,12 @@ public class PersonController {
             summary = "Аутентификация пользователя",
             description = "Проверяет, что пользователь есть в базе данных"
     )
-    public void authenticate(@RequestBody @Valid AuthUser user) {
-        OutUser schema = new OutUser();
+    public void authenticate(@RequestBody @Valid AuthUser user) throws NotAuthorizedException {
+       CreateUser schema = new CreateUser();
         schema.fromModel(userDB.findByLogin(user.getLogin()));
+        if (!Objects.equals(user.getPassword(), schema.getPassword())) {
+            throw new NotAuthorizedException();
+        }
     }
 
     // update a user

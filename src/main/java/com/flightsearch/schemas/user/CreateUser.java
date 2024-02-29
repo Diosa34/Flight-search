@@ -21,4 +21,10 @@ public class CreateUser extends BaseUser {
         super.updateModel(model);
         model.setPassword(this.password);
     }
+
+    @Override
+    public void fromModel(User model) {
+        super.fromModel(model);
+        this.password = model.getPasswordHash();
+    }
 }
