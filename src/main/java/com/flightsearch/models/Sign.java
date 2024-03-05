@@ -21,9 +21,9 @@ public class Sign {
     @GeneratedValue(strategy = IDENTITY)
     private Long proc_id;
 
-    @Id
-    @Column(name = "doc_id")
-    private Long doc_id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "doc_id", referencedColumnName = "doc_id")
+    private Document document;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "counterpart_id", referencedColumnName = "id")
