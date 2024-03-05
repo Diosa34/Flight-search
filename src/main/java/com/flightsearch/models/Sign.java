@@ -26,18 +26,8 @@ public class Sign {
     private Long doc_id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id", referencedColumnName = "id")
-    private User owner;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "counterpart_id", referencedColumnName = "id")
     private User counterpart;
-
-    @Column(nullable = false)
-    private Boolean is_owner_signed;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Timestamp owner_signed_timestamp;
 
     @Column(nullable = false)
     private Boolean is_counterpart_signed;

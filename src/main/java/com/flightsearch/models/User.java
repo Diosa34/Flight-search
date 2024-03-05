@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
@@ -52,11 +51,8 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
     private Set<Document> documents;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
-    private List<Sign> sign_requests;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "counterpart")
-    private List<Sign> sign_responses;
+    private Set<Sign> sign;
 
     public void setPassword(String password) {
         this.passwordHash = password;
