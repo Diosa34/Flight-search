@@ -1,6 +1,10 @@
 package com.flightsearch.controllers;
 
+import com.flightsearch.exceptions.NotAuthorizedException;
+import com.flightsearch.models.Document;
 import com.flightsearch.schemas.document.DocumentBase;
+import com.flightsearch.schemas.document.DocumentCreate;
+import com.flightsearch.schemas.document.DocumentOut;
 import com.flightsearch.services.DocumentDBService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -9,22 +13,49 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/document")
 @Validated
 public class DocumentController {
     @Autowired
-    DocumentDBService documentDB;
+    private DocumentDBService documentDB;
+
+    @GetMapping
+    public List<Document> findAll() {
+        return documentDB.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public DocumentOut findById(@PathVariable Long id) {
+        DocumentOut schema = new DocumentOut();
+        schema.fromModel(documentDB.findById(id));
+        return schema;
+    }
 
     @ResponseStatus(HttpStatus.CREATED) // 201
     @PostMapping
     @Operation(
-            summary = "Создать документ",
-            description = "Создает документ и добавляет бенефициаров"
+            summary = "Создание документа"
     )
-    public DocumentBase create(@RequestBody @Valid DocumentBase document) {
-        DocumentBase schema = new DocumentBase();
+    public DocumentOut create(@RequestBody @Valid DocumentCreate document) {
+        DocumentOut schema = new DocumentOut();
         schema.fromModel(documentDB.save(document));
         return schema;
+    }
+
+    @PutMapping("/{id}")
+    public DocumentOut update(@PathVariable Long id, @RequestBody @Valid DocumentBase documentData) {
+        Document document = documentDB.findById(id);
+        documentData.updateModel(document);
+        DocumentOut schema = new DocumentOut();
+        schema.fromModel(documentDB.save(documentData));
+        return schema;
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable Long id) {
+        documentDB.deleteById(id);
     }
 }
