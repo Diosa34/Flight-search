@@ -34,29 +34,29 @@ public class DocumentController {
         return schema;
     }
 
-    @GetMapping("/{id}")
-    public DocumentOut findByTitle(@PathVariable String title) {
+    @GetMapping("/")
+    public DocumentOut findByTitle(@RequestParam String title) {
         DocumentOut schema = new DocumentOut();
         schema.fromModel(documentDB.findByTitle(title));
         return schema;
     }
 
-    @GetMapping("/{id}")
-    public DocumentOut findByOwnerId(@PathVariable Long id) {
+    @GetMapping("/")
+    public DocumentOut findByOwnerId(@RequestParam Long id) {
         DocumentOut schema = new DocumentOut();
         schema.fromModel(documentDB.findByOwnerId(id));
         return schema;
     }
 
-    @GetMapping("/{id}")
-    public DocumentOut findByIsSigned(@PathVariable Boolean isSigned) {
+    @GetMapping("/")
+    public DocumentOut findByIsSigned(@RequestParam Boolean isSigned) {
         DocumentOut schema = new DocumentOut();
         schema.fromModel(documentDB.findByIsSigned(isSigned));
         return schema;
     }
 
-    @GetMapping("/{id}")
-    public DocumentOut findByCreationDate(@PathVariable Timestamp creationDate) {
+    @GetMapping("/")
+    public DocumentOut findByCreationDate(@RequestParam Timestamp creationDate) {
         DocumentOut schema = new DocumentOut();
         schema.fromModel(documentDB.findByCreationDate(creationDate));
         return schema;
