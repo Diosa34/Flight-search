@@ -11,13 +11,13 @@ import org.hibernate.validator.constraints.Length;
 public class DocumentBase implements ModelSchema<Document> {
     @Length(max = 50)
     @NotBlank
-    private String title;
+    protected String title;
 
     @NotBlank
-    private String content;
+    protected String content;
 
     @NotNull
-    private Long ownerId;
+    protected Long ownerId;
 
     @Override
     public Document toModel() {
