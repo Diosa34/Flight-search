@@ -19,19 +19,25 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 public class Sign {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Long proc_id;
+    private Long procId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "doc_id", referencedColumnName = "doc_id")
+    @JoinColumn(name = "doc_id", referencedColumnName = "doc_id", insertable = false, updatable = false)
     private Document document;
 
+    @Column(name = "doc_id")
+    private Long documentId;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "counterpart_id", referencedColumnName = "id")
+    @JoinColumn(name = "counterpart_id", referencedColumnName = "id", insertable = false, updatable = false)
     private User counterpart;
 
+    @Column(name = "counterpart_id")
+    private Long counterpartId;
+
     @Column(nullable = false)
-    private Boolean is_counterpart_signed;
+    private Boolean isCounterpartSigned = false;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Timestamp counterpart_signed_timestamp;
+    private Timestamp counterpartSignedTimestamp;
 }
