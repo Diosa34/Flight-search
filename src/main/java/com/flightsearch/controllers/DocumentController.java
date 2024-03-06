@@ -1,6 +1,5 @@
 package com.flightsearch.controllers;
 
-import com.flightsearch.exceptions.NotAuthorizedException;
 import com.flightsearch.models.Document;
 import com.flightsearch.schemas.document.DocumentBase;
 import com.flightsearch.schemas.document.DocumentCreate;
@@ -13,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @RestController
@@ -31,6 +31,34 @@ public class DocumentController {
     public DocumentOut findById(@PathVariable Long id) {
         DocumentOut schema = new DocumentOut();
         schema.fromModel(documentDB.findById(id));
+        return schema;
+    }
+
+    @GetMapping("/{id}")
+    public DocumentOut findByTitle(@PathVariable String title) {
+        DocumentOut schema = new DocumentOut();
+        schema.fromModel(documentDB.findByTitle(title));
+        return schema;
+    }
+
+    @GetMapping("/{id}")
+    public DocumentOut findByOwnerId(@PathVariable Long id) {
+        DocumentOut schema = new DocumentOut();
+        schema.fromModel(documentDB.findByOwnerId(id));
+        return schema;
+    }
+
+    @GetMapping("/{id}")
+    public DocumentOut findByIsSigned(@PathVariable Boolean isSigned) {
+        DocumentOut schema = new DocumentOut();
+        schema.fromModel(documentDB.findByIsSigned(isSigned));
+        return schema;
+    }
+
+    @GetMapping("/{id}")
+    public DocumentOut findByCreationDate(@PathVariable Timestamp creationDate) {
+        DocumentOut schema = new DocumentOut();
+        schema.fromModel(documentDB.findByCreationDate(creationDate));
         return schema;
     }
 

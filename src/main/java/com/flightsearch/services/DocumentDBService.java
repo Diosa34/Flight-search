@@ -8,6 +8,7 @@ import com.flightsearch.schemas.ModelSchema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,11 +30,43 @@ public class DocumentDBService {
     }
 
     public Document findById(Long id) {
-        Optional<Document> user = repository.findById(id);
-        if (user.isEmpty()) {
+        Optional<Document> document = repository.findById(id);
+        if (document.isEmpty()) {
             throw new NotFoundException();
         }
-        return user.get();
+        return document.get();
+    }
+
+    public Document findByTitle(String title) {
+        Optional<Document> document = repository.findByTitle(title);
+        if (document.isEmpty()) {
+            throw new NotFoundException();
+        }
+        return document.get();
+    }
+
+    public Document findByOwnerId(Long ownerId) {
+        Optional<Document> document = repository.findByOwnerId(ownerId);
+        if (document.isEmpty()) {
+            throw new NotFoundException();
+        }
+        return document.get();
+    }
+
+    public Document findByIsSigned(Boolean isSigned) {
+        Optional<Document> document = repository.findByIsSigned(isSigned);
+        if (document.isEmpty()) {
+            throw new NotFoundException();
+        }
+        return document.get();
+    }
+
+    public Document findByCreationDate(Timestamp creationDate) {
+        Optional<Document> document = repository.findByCreationDate(creationDate);
+        if (document.isEmpty()) {
+            throw new NotFoundException();
+        }
+        return document.get();
     }
 
     public void deleteById(Long id) {
