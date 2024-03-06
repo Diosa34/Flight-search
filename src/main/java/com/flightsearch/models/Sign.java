@@ -22,7 +22,7 @@ public class Sign {
     private Long procId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "doc_id", referencedColumnName = "doc_id", insertable = false, updatable = false)
+    @JoinColumn(name = "doc_id", referencedColumnName = "docId", insertable = false, updatable = false)
     private Document document;
 
     @Column(name = "doc_id")
