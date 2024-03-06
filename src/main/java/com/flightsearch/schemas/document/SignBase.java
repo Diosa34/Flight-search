@@ -11,7 +11,6 @@ public class SignBase implements ModelSchema<Sign> {
     @NotNull
     private Long documentId;
 
-
     @Override
     public Sign toModel() {
         Sign sign = new Sign();

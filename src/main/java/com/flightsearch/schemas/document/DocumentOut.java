@@ -1,4 +1,4 @@
 package com.flightsearch.schemas.document;
 
-public class DocumentOut {
+public class DocumentOut extends DocumentBase {
 }
