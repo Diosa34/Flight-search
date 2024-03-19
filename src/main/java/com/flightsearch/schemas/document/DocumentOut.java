@@ -1,7 +1,7 @@
 package com.flightsearch.schemas.document;
 
 import com.flightsearch.models.Document;
-import com.flightsearch.models.Sign;
+import com.flightsearch.schemas.sign.SignOut;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -23,7 +23,7 @@ public class DocumentOut extends DocumentBase {
         this.creationDate = document.getCreationDate();
         this.ownerId = document.getOwnerId();
         this.isSigned = document.getIsSigned();
-        this.signs = document.getSign().stream().map((sign) -> {
+        this.signs = document.getSigns().stream().map((sign) -> {
             SignOut signOut = new SignOut();
             signOut.fromModel(sign);
             return signOut;

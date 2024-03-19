@@ -1,11 +1,9 @@
 package com.flightsearch.schemas.document;
 
-import com.flightsearch.models.Document;
-import com.flightsearch.models.Sign;
+import com.flightsearch.schemas.sign.SignCreate;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)

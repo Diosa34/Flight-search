@@ -1,4 +1,4 @@
-package com.flightsearch.schemas.document;
+package com.flightsearch.schemas.sign;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -6,5 +6,4 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class SignCreate extends SignBase {
-
 }

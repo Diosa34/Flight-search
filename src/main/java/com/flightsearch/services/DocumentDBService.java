@@ -7,7 +7,7 @@ import com.flightsearch.repositories.DocumentRepository;
 import com.flightsearch.repositories.SignRepository;
 import com.flightsearch.schemas.ModelSchema;
 import com.flightsearch.schemas.document.DocumentCreate;
-import com.flightsearch.schemas.document.SignCreate;
+import com.flightsearch.schemas.sign.SignCreate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

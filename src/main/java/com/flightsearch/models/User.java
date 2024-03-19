@@ -52,7 +52,7 @@ public class User {
     private Set<Document> documents;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "counterpart")
-    private Set<Sign> sign;
+    private Set<Sign> signs;
 
     public void setPassword(String password) {
         this.passwordHash = password;

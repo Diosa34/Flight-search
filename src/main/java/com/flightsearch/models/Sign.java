@@ -19,7 +19,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 public class Sign {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Long procId;
+    private Long signId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doc_id", referencedColumnName = "docId", insertable = false, updatable = false)

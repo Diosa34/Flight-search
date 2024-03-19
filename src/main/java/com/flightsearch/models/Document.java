@@ -39,7 +39,7 @@ public class Document {
     private Long ownerId;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "document")
-    private Set<Sign> sign;
+    private Set<Sign> signs;
 
     @Column(nullable = false)
     private Boolean isSigned = false;

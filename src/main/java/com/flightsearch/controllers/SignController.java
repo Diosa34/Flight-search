@@ -1,5 +1,7 @@
 package com.flightsearch.controllers;
 
+import com.flightsearch.schemas.sign.SignCreate;
+import com.flightsearch.schemas.sign.SignOut;
 import com.flightsearch.services.SignDBService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -16,8 +18,8 @@ public class SignController {
     private SignDBService signDB;
 
     @GetMapping("/{id}")
-    public OutSign findById(@PathVariable Long id) {
-        OutSign schema = new OutSign();
+    public SignOut findById(@PathVariable Long id) {
+        SignOut schema = new SignOut();
         schema.fromModel(signDB.findById(id));
         return schema;
     }
@@ -29,8 +31,8 @@ public class SignController {
             summary = "Добавление контрагента",
             description = "Позволяет добавить ещё одну сторону к договору, тот которой ожидается подписание"
     )
-    public OutSign create(@RequestBody @Valid CreateSign sign) {
-        OutSign schema = new OutSign();
+    public SignOut create(@RequestBody @Valid SignCreate sign) {
+        SignOut schema = new SignOut();
         schema.fromModel(signDB.save(sign));
         return schema;
     }
