@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class DocumentBase {
+public class DocumentMetaUpdate {
     @Schema(example = "Результаты проверки.")
     @NotBlank
     @Size(max = 50)
@@ -16,9 +16,4 @@ public class DocumentBase {
     @NotBlank
     @Size(max = 512)
     private String description;
-
-    @Schema(example = "file.pdf")
-    @NotBlank
-    @Size(max = 256)
-    private String key;
 }

@@ -1,6 +1,6 @@
 package com.flightsearch.controllers;
 
-import com.flightsearch.exceptions.NotAuthorizedException;
+
 import com.flightsearch.exceptions.NotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
@@ -36,12 +36,5 @@ public class ErrorHandlingControllerAdvice {
     @ExceptionHandler(value = NotFoundException.class)
     public String handleNotFoundExceptions(NotFoundException ignoredEx) {
         return "Object not found";
-    }
-
-    @ResponseBody
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler(value = NotAuthorizedException.class)
-    public String handleNotAuthorizedExceptions(NotAuthorizedException ignoredEx) {
-        return "Authorization failed";
     }
 }
