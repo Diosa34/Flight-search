@@ -11,13 +11,13 @@ import java.util.List;
 
 @Configuration
 public class SwaggerConfig {
-    @Value("${proj.openapi.dev-url}")
+    @Value("${application.openapi.dev-url}")
     private String devUrl;
 
-    @Value("${proj.openapi.helios-url}")
+    @Value("${application.openapi.helios-url}")
     private String heliosUrl;
 
-    @Value("${proj.openapi.prod-url}")
+    @Value("${application.openapi.prod-url}")
     private String prodUrl;
 
     @Bean

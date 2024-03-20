@@ -1,0 +1,14 @@
+spring:
+  profiles:
+    default: dev
+
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true
+    path: /docs
+
+application:
+  openapi:
+    dev-url: http://localhost:8080
+    helios-url: http://localhost:18080
+    prod-url: http://localhost:80

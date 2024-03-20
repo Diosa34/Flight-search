@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://pg:5432/studs
+    username: s327630
+    password: ${DB_PWD}
+  jpa:
+    database: postgresql
+    generate-ddl: true
+  sql:
+    init:
+      mode: always
+server:
+  port: 14880

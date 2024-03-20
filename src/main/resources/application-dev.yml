@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PWD}
+  jpa:
+    database: postgresql
+    generate-ddl: true
+  sql:
+    init:
+      mode: always
