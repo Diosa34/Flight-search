@@ -5,22 +5,17 @@ import com.flightsearch.models.Document;
 import com.flightsearch.repositories.DocumentRepository;
 import com.flightsearch.schemas.document.*;
 import com.flightsearch.services.mapping.DocumentMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class DocumentService {
     final DocumentRepository docRepository;
-
     final DocumentMapper docMapper;
-
-    public DocumentService(DocumentRepository docRepository, DocumentMapper docMapper) {
-        this.docRepository = docRepository;
-        this.docMapper = docMapper;
-    }
-
 
     public Set<DocumentRead> getAll() {
         return docRepository.findAll().stream()
