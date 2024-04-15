@@ -35,7 +35,7 @@ public class SwaggerConfig {
         prodServer.setDescription("Основной сервер");
 
         Info info = new Info()
-                .title("Документ-оборот")
+                .title("Документооборот")
                 .version("1.1.0")
                 .description("Документация API для лабораторной работы по Бизнес Логике.");
 
