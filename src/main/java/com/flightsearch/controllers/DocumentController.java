@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 
 @Tag(
-    name = "Документ-оборот",
+    name = "Документооборот",
     description = "В данном разделе находятся описание методов для работы с документами и подписями."
 )
 @RestController
