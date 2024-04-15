@@ -1,4 +1,4 @@
-package com.flightsearch.schemas.sign;
+package com.flightsearch.schemas.document;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

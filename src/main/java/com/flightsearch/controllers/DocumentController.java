@@ -1,89 +1,104 @@
 package com.flightsearch.controllers;
 
-import com.flightsearch.models.Document;
-import com.flightsearch.schemas.document.DocumentBase;
-import com.flightsearch.schemas.document.DocumentCreate;
-import com.flightsearch.schemas.document.DocumentOut;
-import com.flightsearch.services.DocumentDBService;
+import com.flightsearch.schemas.document.*;
+import com.flightsearch.services.DocumentService;
+import com.flightsearch.services.SignService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
-import java.util.List;
+import java.util.Set;
 
+@Tag(
+    name = "Документ-оборот",
+    description = "В данном разделе находятся описание методов для работы с документами и подписями."
+)
 @RestController
 @RequestMapping("/document")
 @Validated
 public class DocumentController {
-    @Autowired
-    private DocumentDBService documentDB;
+    private final DocumentService docService;
+    private final SignService signService;
 
-    @GetMapping
-    public List<Document> findAll() {
-        return documentDB.findAll();
+    public DocumentController(SignService signService, DocumentService docService) {
+        this.signService = signService;
+        this.docService = docService;
     }
 
-    @GetMapping("/{id}")
-    public DocumentOut findById(@PathVariable Long id) {
-        DocumentOut schema = new DocumentOut();
-        schema.fromModel(documentDB.findById(id));
-        return schema;
-    }
-
-    @GetMapping("/")
-    public DocumentOut findByTitle(@RequestParam String title) {
-        DocumentOut schema = new DocumentOut();
-        schema.fromModel(documentDB.findByTitle(title));
-        return schema;
-    }
-
-    @GetMapping("/")
-    public DocumentOut findByOwnerId(@RequestParam Long id) {
-        DocumentOut schema = new DocumentOut();
-        schema.fromModel(documentDB.findByOwnerId(id));
-        return schema;
-    }
-
-    @GetMapping("/")
-    public DocumentOut findByIsSigned(@RequestParam Boolean isSigned) {
-        DocumentOut schema = new DocumentOut();
-        schema.fromModel(documentDB.findByIsSigned(isSigned));
-        return schema;
-    }
-
-    @GetMapping("/")
-    public DocumentOut findByCreationDate(@RequestParam Timestamp creationDate) {
-        DocumentOut schema = new DocumentOut();
-        schema.fromModel(documentDB.findByCreationDate(creationDate));
-        return schema;
-    }
-
-    @ResponseStatus(HttpStatus.CREATED) // 201
-    @PostMapping
     @Operation(
-            summary = "Создание документа"
+            summary = "Создать документ",
+            description = "Создает документ и добавляет объекты неподтвержденных подписей."
     )
-    public DocumentOut create(@RequestBody @Valid DocumentCreate document) {
-        DocumentOut schema = new DocumentOut();
-        schema.fromModel(documentDB.save(document));
-        return schema;
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping
+    public DocumentRead createDocument(@RequestBody @Valid DocumentCreate schema) {
+        return docService.create(schema);
     }
 
+    @Operation(
+            summary = "Список документов",
+            description = "Возвращает список всех документов."
+    )
+    @GetMapping
+    public Set<DocumentRead> getAll() {
+        return docService.getAll();
+    }
+
+    @Operation(
+            summary = "Возвращает документ",
+            description = "Возвращает информацию о документе и подписях."
+    )
+    @GetMapping("/{id}")
+    public DocumentRead getDocument(@PathVariable Long id) {
+        return docService.getById(id);
+    }
+
+    @Operation(
+            summary = "Обновить документ",
+            description = "Обновляет документ и сбрасывает подтвержденные подписи, " +
+                    "то есть документ становится не подписанным."
+    )
     @PutMapping("/{id}")
-    public DocumentOut update(@PathVariable Long id, @RequestBody @Valid DocumentBase documentData) {
-        Document document = documentDB.findById(id);
-        documentData.updateModel(document);
-        DocumentOut schema = new DocumentOut();
-        schema.fromModel(documentDB.save(documentData));
-        return schema;
+    public DocumentRead updateDocument(@PathVariable Long id, @RequestBody @Valid DocumentUpdate schema) {
+        return docService.update(id, schema);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
-        documentDB.deleteById(id);
+    @Operation(
+            summary = "Обновить название документа",
+            description = "Обновляет справочные данные документа без сброса подтверждения подписей."
+    )
+    @PatchMapping("/{id}")
+    public DocumentRead updateDocumentMeta(@PathVariable Long id, @RequestBody @Valid DocumentMetaUpdate schema) {
+        return docService.updateMeta(id, schema);
+    }
+
+    @Operation(
+            summary = "Подтверждает подпись",
+            description = "Подписывает документ от имени пользователя."
+    )
+    @PostMapping("/sign/{signId}/confirm")
+    public SignRead confirmSign(@PathVariable Long signId) {
+        return signService.confirm(signId);
+    }
+
+    @Operation(
+            summary = "Отменяет подпись",
+            description = "Отменяет подпись документа от имени пользователя."
+    )
+    @DeleteMapping("/sign/{signId}/remove")
+    public SignRead removeSign(@PathVariable Long signId) {
+        return signService.removeSign(signId);
+    }
+
+    @Operation(
+            summary = "Удаляет подпись",
+            description = "Удаляет объект подписи и лишает возможности подписания документа для пользователя, связанного с этим объектом."
+    )
+    @DeleteMapping("/sign/{signId}")
+    public void deleteSign(@PathVariable Long signId) {
+        signService.delete(signId);
     }
 }

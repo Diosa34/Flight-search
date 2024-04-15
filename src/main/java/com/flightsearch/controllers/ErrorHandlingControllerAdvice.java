@@ -1,8 +1,9 @@
 package com.flightsearch.controllers;
 
-import com.flightsearch.exceptions.NotAuthorizedException;
+
 import com.flightsearch.exceptions.NotFoundException;
-import jakarta.validation.ConstraintViolationException;
+import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -19,7 +20,8 @@ import java.util.Map;
 public class ErrorHandlingControllerAdvice {
     @ResponseBody
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-    @ExceptionHandler(value = {MethodArgumentNotValidException.class, ConstraintViolationException.class})
+    @ExceptionHandler(value = {MethodArgumentNotValidException.class,
+            jakarta.validation.ConstraintViolationException.class})
     public Map<String, String> handleValidationExceptions(
             MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
@@ -32,16 +34,21 @@ public class ErrorHandlingControllerAdvice {
     }
 
     @ResponseBody
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    @ExceptionHandler(value = {DataIntegrityViolationException.class})
+    public Map<String, String> handleUniqueExceptions(
+            DataIntegrityViolationException ex) {
+        String constraintName = "Неизвестная ошибка DataIntegrityViolationException";
+        if ((ex.getCause() != null) && (ex.getCause() instanceof ConstraintViolationException)) {
+            constraintName = ex.getCause().getCause().getMessage();
+        }
+        return Map.of("error", constraintName);
+    }
+
+    @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(value = NotFoundException.class)
     public String handleNotFoundExceptions(NotFoundException ignoredEx) {
         return "Object not found";
-    }
-
-    @ResponseBody
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler(value = NotAuthorizedException.class)
-    public String handleNotAuthorizedExceptions(NotAuthorizedException ignoredEx) {
-        return "Authorization failed";
     }
 }

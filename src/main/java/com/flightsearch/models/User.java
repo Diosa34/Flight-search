@@ -1,13 +1,15 @@
 package com.flightsearch.models;
 
+import ch.qos.logback.classic.encoder.JsonEncoder;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Date;
-import java.util.Set;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -48,13 +50,10 @@ public class User {
     @Column(nullable = false)
     private String passwordHash;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
-    private Set<Document> documents;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "counterpart")
-    private Set<Sign> signs;
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.ROLE_USER;
 
     public void setPassword(String password) {
-        this.passwordHash = password;
+        this.passwordHash = new BCryptPasswordEncoder().encode(password);
     }
 }
