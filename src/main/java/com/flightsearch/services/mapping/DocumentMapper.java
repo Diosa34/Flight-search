@@ -14,8 +14,11 @@ import java.util.stream.Collectors;
 public class DocumentMapper {
     private final SignMapper signMapper;
 
-    public DocumentMapper(SignMapper signMapper) {
+    private final UserMapper userMapper;
+
+    public DocumentMapper(SignMapper signMapper, UserMapper userMapper) {
         this.signMapper = signMapper;
+        this.userMapper = userMapper;
     }
 
     protected Document mapDocumentBaseToEntity(DocumentBase schema, Document entity) {
@@ -36,6 +39,7 @@ public class DocumentMapper {
                         .map(signMapper::mapSignCreateToEntity)
                         .collect(Collectors.toList())
         );
+        entity.getSigns().forEach(sign -> sign.setDocument(entity));
         return entity;
     }
 
@@ -48,11 +52,15 @@ public class DocumentMapper {
                         .map(signMapper::mapSignCreateToEntity)
                         .collect(Collectors.toList())
         );
+        entity.getSigns().forEach(sign -> sign.setDocument(entity));
     }
 
     public DocumentRead mapEntityToDocumentRead(Document entity) {
         DocumentRead schema = new DocumentRead();
         schema.setId(entity.getId());
+        schema.setOwner(
+                userMapper.mapEntityToUserRead(entity.getOwner())
+        );
         schema.setSigns(
                 entity.getSigns().stream()
                         .map(signMapper::mapEntityToSignRead)

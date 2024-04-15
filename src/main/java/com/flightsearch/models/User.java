@@ -6,7 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -46,6 +48,12 @@ public class User {
 
     @Column(nullable = false)
     private String passwordHash;
+
+    @OneToMany(mappedBy = "counterpart")
+    private List<Sign> signs = new ArrayList<>();
+
+    @OneToMany(mappedBy = "owner")
+    private List<Document> documents = new ArrayList<>();
 
     public void setPassword(String password) {
         this.passwordHash = password;

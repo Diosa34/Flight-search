@@ -1,5 +1,6 @@
 package com.flightsearch.schemas.document;
 
+import com.flightsearch.schemas.user.UserRead;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,7 +14,8 @@ public class DocumentRead extends DocumentBase {
     @Schema(example = "1")
     private Long id;
 
-    Set<SignRead> signs;
+    private UserRead owner;
+    private Set<SignRead> signs;
 
     private Timestamp creationDate;
     private Boolean isSigned;

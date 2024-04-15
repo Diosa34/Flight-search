@@ -30,6 +30,7 @@ public class UserMapper {
     }
 
     public UserRead mapEntityToUserRead(User entity) {
+        if (entity == null) return null;
         UserRead schema = new UserRead();
         schema.setId(entity.getId());
         schema.setName(entity.getName());

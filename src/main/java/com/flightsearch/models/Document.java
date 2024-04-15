@@ -17,13 +17,11 @@ public class Document {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @ManyToOne
     @JoinColumn(name = "owner_id")
     private User owner;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "document_id")
+    @OneToMany(mappedBy = "document", fetch = FetchType.EAGER)
     private List<Sign> signs;
 
 
