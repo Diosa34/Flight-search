@@ -27,7 +27,7 @@ public class Sign {
 
 
     @Column(nullable = false)
-    private Boolean isCounterpartSigned = false;
+    private SignStatus signStatus = SignStatus.ON_HOLD;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Timestamp submitTime;

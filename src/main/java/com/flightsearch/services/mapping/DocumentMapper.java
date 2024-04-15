@@ -2,6 +2,7 @@ package com.flightsearch.services.mapping;
 
 import com.flightsearch.models.Document;
 import com.flightsearch.models.Sign;
+import com.flightsearch.models.SignStatus;
 import com.flightsearch.schemas.document.DocumentBase;
 import com.flightsearch.schemas.document.DocumentCreate;
 import com.flightsearch.schemas.document.DocumentRead;
@@ -71,7 +72,8 @@ public class DocumentMapper {
         schema.setKey(entity.getKey());
         schema.setCreationDate(entity.getCreationDate());
         schema.setIsSigned(entity.getSigns().stream()
-                .map(Sign::getIsCounterpartSigned)
+                .map(Sign::getSignStatus)
+                .map(signStatus -> signStatus == SignStatus.CONFIRMED)
                 .reduce(Boolean::logicalAnd).orElse(false));
         return schema;
     }
