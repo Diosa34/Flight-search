@@ -76,6 +76,15 @@ public class DocumentController {
     }
 
     @Operation(
+            summary = "Удалить документ",
+            description = "Удаляет документ и связанные с ним подписи."
+    )
+    @DeleteMapping("/{id}")
+    public void deleteDocument(@PathVariable Long id) {
+        docService.delete(id);
+    }
+
+    @Operation(
             summary = "Подтверждает подпись",
             description = "Подписывает документ от имени пользователя."
     )

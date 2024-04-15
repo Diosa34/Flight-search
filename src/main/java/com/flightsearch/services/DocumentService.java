@@ -63,8 +63,6 @@ public class DocumentService {
 
     public void delete(Long documentId) {
         Document doc = docRepository.findById(documentId).orElseThrow(NotFoundException::new);
-        docRepository.delete(
-                doc
-        );
+        docRepository.delete(doc);
     }
 }

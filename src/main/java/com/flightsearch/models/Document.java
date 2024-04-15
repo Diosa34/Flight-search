@@ -21,7 +21,7 @@ public class Document {
     @JoinColumn(name = "owner_id")
     private User owner;
 
-    @OneToMany(mappedBy = "document", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "document", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Sign> signs;
 
 
