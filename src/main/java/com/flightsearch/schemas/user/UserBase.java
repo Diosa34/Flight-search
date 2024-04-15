@@ -14,12 +14,10 @@ public class UserBase {
     @Size(max = 30)
     protected String name;
 
-
     @Schema(example = "Иванов")
     @NotBlank
     @Size(max = 30)
     protected String surname;
-
 
     @Schema(example = "Иванович")
     @Size(max = 30)
@@ -27,12 +25,10 @@ public class UserBase {
 
     protected Gender gender;
 
-
     @Schema(example = "+79220912121")
     @NotBlank
     @Size(max = 30)
     protected String telephone;
-
 
     @Schema(example = "sample@example.com")
     @NotBlank

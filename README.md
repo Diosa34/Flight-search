@@ -25,32 +25,32 @@
 ## Сборка и запуск
 Для сборки проекта выполнить
 ```shell
-make buid
+./mvnw package
 ```
-или
+jar файл будет в `/target`. Для запуска сервера, 
+предварительно нужно установить переменные среды DB_USER, DB_PWD, DB_URL:
 ```shell
-mvn clean package
-```
-jar файл будет в `/target`. Для запуска сервера:
-```shell
-make run
-```
-или
-```shell
+export DB_URL=jdbc:postgresql://localhost:5432/test
+export DB_USER=test
+export DB_PWD=test
+
 java -jar target/FlightSearch-1.0.0.jar
 ```
 ## Сборка и запуск Helios
-1. C помощью scp загрузить папку с проектом
+1. C помощью scp загрузить jar
 ```shell
-scp -r . helios:~/FlightSearch
+scp target/FlightSearch-1.0.0.jar helios:~/
 ```
 2. Подключится к helios:
 ```shell
 ssh helios
 ```
-3. Записать пароль от бд в `~/.profile` на helios
+3. Записать пароль от бд в `~/.profile` на helios. 
+По умолчанию сервер запускается на порту 14880, 
+его можно переопределить добавив переменную среды PORT.
 ```shell
 touch ~/.profile
+echo "export DB_USER=sXXXXXX" >> ~/.profile
 echo "export DB_PWD=пароль" >> ~/.profile
 ```
 4. Переподключиться к helios
@@ -58,15 +58,9 @@ echo "export DB_PWD=пароль" >> ~/.profile
 exit
 ssh helios
 ```
-5. Переходим в папку проекта. Даем все права оболочке Maven. Запускаем оболочку Maven чтобы он установил что надо.
+5. Запускаем сервак. `-Dspring.profiles.active` - определяет профиль конфигурации
 ```shell
-cd FlightSearch
-chmod 777 mvnw
-./mvnw clean install
-```
-6. Запускаем сервак
-```shell
-./mvnw spring-boot:run -Dspring-boot.run.profiles=helios
+java -jar -Dspring.profiles.active=helios FlightSearch-1.0.0.jar
 ```
 ## Документация
 Проект имеет автодокументацию REST API по [адрессу](http://localhost:8080/docs):

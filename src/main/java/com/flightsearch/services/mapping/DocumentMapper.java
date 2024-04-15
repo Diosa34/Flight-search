@@ -1,6 +1,7 @@
 package com.flightsearch.services.mapping;
 
 import com.flightsearch.models.Document;
+import com.flightsearch.models.Sign;
 import com.flightsearch.schemas.document.DocumentBase;
 import com.flightsearch.schemas.document.DocumentCreate;
 import com.flightsearch.schemas.document.DocumentRead;
@@ -33,7 +34,7 @@ public class DocumentMapper {
         entity.setSigns(
                 schema.getSigns().stream()
                         .map(signMapper::mapSignCreateToEntity)
-                        .collect(Collectors.toSet())
+                        .collect(Collectors.toList())
         );
         return entity;
     }
@@ -45,7 +46,7 @@ public class DocumentMapper {
         entity.setSigns(
                 schema.getSigns().stream()
                         .map(signMapper::mapSignCreateToEntity)
-                        .collect(Collectors.toSet())
+                        .collect(Collectors.toList())
         );
     }
 
@@ -61,7 +62,9 @@ public class DocumentMapper {
         schema.setDescription(entity.getDescription());
         schema.setKey(entity.getKey());
         schema.setCreationDate(entity.getCreationDate());
-        schema.setIsSigned(entity.getIsSigned());
+        schema.setIsSigned(entity.getSigns().stream()
+                .map(Sign::getIsCounterpartSigned)
+                .reduce(Boolean::logicalAnd).orElse(false));
         return schema;
     }
 }

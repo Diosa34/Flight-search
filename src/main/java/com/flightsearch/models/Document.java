@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Data
@@ -19,12 +19,12 @@ public class Document {
 
 
     @ManyToOne
-    @JoinColumn(name = "owner_id", referencedColumnName = "id")
+    @JoinColumn(name = "owner_id")
     private User owner;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "document_id")
-    private Set<Sign> signs;
+    private List<Sign> signs;
 
 
     @Column(length = 50, nullable = false)
@@ -38,7 +38,4 @@ public class Document {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Timestamp creationDate = new Timestamp(System.currentTimeMillis());
-
-    @Column(nullable = false)
-    private Boolean isSigned = false;
 }
