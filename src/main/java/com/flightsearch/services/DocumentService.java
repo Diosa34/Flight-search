@@ -7,6 +7,7 @@ import com.flightsearch.repositories.SignRepository;
 import com.flightsearch.schemas.document.*;
 import com.flightsearch.services.mapping.DocumentMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,6 +33,7 @@ public class DocumentService {
                 .collect(Collectors.toSet());
     }
 
+    @Transactional
     public DocumentRead create(DocumentCreate schema) {
         Document newDoc = docMapper.mapDocumentCreateToEntity(schema);
         docRepository.save(newDoc);
@@ -39,6 +41,7 @@ public class DocumentService {
         return docMapper.mapEntityToDocumentRead(newDoc);
     }
 
+    @Transactional
     public DocumentRead update(Long id, DocumentUpdate schema) {
         Document doc = docRepository.getReferenceById(id);
         docMapper.mapAndUpdateEntity(schema, doc);
