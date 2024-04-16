@@ -48,7 +48,7 @@ public class JAASLoginModule implements LoginModule {
         if (user.isPresent()) {
             loginSucceeded = passwordEncoder.matches(password, user.get().getPasswordHash());
         } else {
-            throw new NotFoundException();
+            return false;
         }
         return loginSucceeded;
     }
