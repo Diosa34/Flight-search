@@ -56,7 +56,7 @@ public class ErrorHandlingControllerAdvice {
     @ResponseBody
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(value = PermissionDeniedException.class)
-    public String handlePermissionDenied(NotFoundException ignoredEx) {
+    public String handlePermissionDenied(PermissionDeniedException ignoredEx) {
         return "Permission denied";
     }
 }
