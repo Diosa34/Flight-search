@@ -18,18 +18,18 @@ import java.util.stream.Collectors;
 public class UserService {
     final UserRepository userRepository;
     final UserMapper userMapper;
-    final XMLUserRepository xmlRepository;
+    final XMLUserRepository xmlUserRepository;
 
     public UserRead register(UserRegister schema) {
         User newUser = userMapper.mapUserRegistrationToEntity(schema);
         newUser = userRepository.save(newUser);
-        xmlRepository.saveUser(newUser);
+        xmlUserRepository.save(newUser);
         return userMapper.mapEntityToUserRead(newUser);
     }
 
     public UserRead getById(Long id) {
         User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
-//        User xmlUser = xmlRepository.getById(id);
+//        User xmlUser = xmlUserRepository.getById(id);
         return userMapper.mapEntityToUserRead(user);
     }
 
@@ -42,6 +42,6 @@ public class UserService {
     public void delete(Long id) {
         User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
         userRepository.delete(user);
-        xmlRepository.delete(user);
+        xmlUserRepository.delete(user);
     }
 }

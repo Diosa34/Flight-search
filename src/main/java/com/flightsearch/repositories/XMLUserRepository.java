@@ -27,10 +27,20 @@ public class XMLUserRepository {
 
     public ArrayList<User> getAll() {
         xstream.alias("user", User.class);
-        return (ArrayList<User>) this.xstream.fromXML(new File(xmlPath), "list");
+        File xmlFile = new File(xmlPath);
+        try {
+            if (xmlFile.createNewFile()) {
+                FileWriter xmlFileWriter = new FileWriter(xmlFile);
+                xmlFileWriter.append("<list></list>");
+                xmlFileWriter.close();
+            }
+            return (ArrayList<User>) this.xstream.fromXML(xmlFile, "list");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public void saveUser(User newUser){
+    public void save(User newUser){
         xstream.alias("user", User.class);
         ArrayList<User> users = getAll();
         users.add(newUser);
