@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Tag(name = "Пользователи")
 @RestController
 @RequiredArgsConstructor
@@ -24,6 +26,12 @@ public class UserController {
     @PostMapping
     public UserRead registerUser(@RequestBody @Valid UserRegister schema) {
         return userService.register(schema);
+    }
+
+    @Operation(summary = "Список пользователей")
+    @GetMapping
+    public List<UserRead> getUserList() {
+        return userService.getAll();
     }
 
     @Operation(summary = "Возвращает пользователя")

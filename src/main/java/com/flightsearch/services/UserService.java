@@ -10,6 +10,9 @@ import com.flightsearch.services.mapping.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -28,6 +31,12 @@ public class UserService {
         User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
 //        User xmlUser = xmlRepository.getById(id);
         return userMapper.mapEntityToUserRead(user);
+    }
+
+    public List<UserRead> getAll() {
+        return userRepository.findAll().stream()
+                .map(userMapper::mapEntityToUserRead)
+                .collect(Collectors.toList());
     }
 
     public void delete(Long id) {
