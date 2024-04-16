@@ -17,10 +17,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class DocumentService {
     final DocumentRepository docRepository;
-
     final SignRepository signRepository;
-
     final DocumentMapper docMapper;
+    final SecurityService securityService;
 
     public Set<DocumentRead> getAll() {
         return docRepository.findAll().stream()
@@ -31,6 +30,7 @@ public class DocumentService {
     @Transactional
     public DocumentRead create(DocumentCreate schema) {
         Document newDoc = docMapper.mapDocumentCreateToEntity(schema);
+        newDoc.setOwner(securityService.getCurrentUser());
         docRepository.save(newDoc);
         signRepository.saveAll(newDoc.getSigns());
         return docMapper.mapEntityToDocumentRead(newDoc);
@@ -39,6 +39,7 @@ public class DocumentService {
     @Transactional
     public DocumentRead update(Long id, DocumentUpdate schema) {
         Document doc = docRepository.getReferenceById(id);
+        securityService.userRequired(doc.getOwner());
         docMapper.mapAndUpdateEntity(schema, doc);
         signRepository.saveAll(doc.getSigns());
         return docMapper.mapEntityToDocumentRead(doc);
@@ -46,6 +47,7 @@ public class DocumentService {
 
     public DocumentRead updateMeta(Long id, DocumentMetaUpdate schema) {
         Document doc = docRepository.getReferenceById(id);
+        securityService.userRequired(doc.getOwner());
         doc.setTitle(schema.getTitle());
         doc.setDescription(schema.getDescription());
         doc = docRepository.save(doc);
@@ -61,6 +63,7 @@ public class DocumentService {
 
     public void delete(Long documentId) {
         Document doc = docRepository.findById(documentId).orElseThrow(NotFoundException::new);
+        securityService.userRequired(doc.getOwner());
         docRepository.delete(doc);
     }
 }

@@ -16,9 +16,11 @@ import java.sql.Timestamp;
 public class SignService {
     final SignRepository signRepository;
     final SignMapper signMapper;
+    final SecurityService securityService;
 
     public SignRead confirm(Long id) {
         Sign sign = signRepository.findById(id).orElseThrow(NotFoundException::new);
+        securityService.userRequired(sign.getCounterpart());
         sign.setSubmitTime(new Timestamp(System.currentTimeMillis()));
         sign.setSignStatus(SignStatus.CONFIRMED);
         sign = signRepository.save(sign);
@@ -27,6 +29,7 @@ public class SignService {
 
     public SignRead reject(Long id) {
         Sign sign = signRepository.findById(id).orElseThrow(NotFoundException::new);
+        securityService.userRequired(sign.getCounterpart());
         sign.setSubmitTime(new Timestamp(System.currentTimeMillis()));
         sign.setSignStatus(SignStatus.REJECTED);
         sign = signRepository.save(sign);
@@ -35,6 +38,7 @@ public class SignService {
 
     public void delete(Long id) {
         Sign sign = signRepository.findById(id).orElseThrow(NotFoundException::new);
+        securityService.userRequired(sign.getDocument().getOwner());
         signRepository.delete(sign);
     }
 }
