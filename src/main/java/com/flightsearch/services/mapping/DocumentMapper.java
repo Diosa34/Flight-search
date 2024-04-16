@@ -2,6 +2,7 @@ package com.flightsearch.services.mapping;
 
 import com.flightsearch.models.Document;
 import com.flightsearch.models.Sign;
+import com.flightsearch.models.SignStatus;
 import com.flightsearch.schemas.document.DocumentBase;
 import com.flightsearch.schemas.document.DocumentCreate;
 import com.flightsearch.schemas.document.DocumentRead;
@@ -14,8 +15,11 @@ import java.util.stream.Collectors;
 public class DocumentMapper {
     private final SignMapper signMapper;
 
-    public DocumentMapper(SignMapper signMapper) {
+    private final UserMapper userMapper;
+
+    public DocumentMapper(SignMapper signMapper, UserMapper userMapper) {
         this.signMapper = signMapper;
+        this.userMapper = userMapper;
     }
 
     protected Document mapDocumentBaseToEntity(DocumentBase schema, Document entity) {
@@ -36,6 +40,7 @@ public class DocumentMapper {
                         .map(signMapper::mapSignCreateToEntity)
                         .collect(Collectors.toList())
         );
+        entity.getSigns().forEach(sign -> sign.setDocument(entity));
         return entity;
     }
 
@@ -48,11 +53,15 @@ public class DocumentMapper {
                         .map(signMapper::mapSignCreateToEntity)
                         .collect(Collectors.toList())
         );
+        entity.getSigns().forEach(sign -> sign.setDocument(entity));
     }
 
     public DocumentRead mapEntityToDocumentRead(Document entity) {
         DocumentRead schema = new DocumentRead();
         schema.setId(entity.getId());
+        schema.setOwner(
+                userMapper.mapEntityToUserRead(entity.getOwner())
+        );
         schema.setSigns(
                 entity.getSigns().stream()
                         .map(signMapper::mapEntityToSignRead)
@@ -63,7 +72,8 @@ public class DocumentMapper {
         schema.setKey(entity.getKey());
         schema.setCreationDate(entity.getCreationDate());
         schema.setIsSigned(entity.getSigns().stream()
-                .map(Sign::getIsCounterpartSigned)
+                .map(Sign::getSignStatus)
+                .map(signStatus -> signStatus == SignStatus.CONFIRMED)
                 .reduce(Boolean::logicalAnd).orElse(false));
         return schema;
     }

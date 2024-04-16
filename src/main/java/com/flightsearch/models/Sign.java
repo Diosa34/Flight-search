@@ -17,17 +17,17 @@ public class Sign {
     private Long id;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "counterpart_id", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "counterpart_id") // todo: после настройки идентификации добавить nullable = false
     private User counterpart;
 
     @ManyToOne
-    @JoinColumn(name = "document_id")
+    @JoinColumn(name = "document_id", nullable = false)
     private Document document;
 
 
     @Column(nullable = false)
-    private Boolean isCounterpartSigned = false;
+    private SignStatus signStatus = SignStatus.ON_HOLD;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Timestamp submitTime;

@@ -37,8 +37,8 @@ public class SignMapper {
                 entity.getId());
         schema.setCounterpartId(
                 entity.getCounterpart().getId());
-        schema.setIsCounterpartSigned(
-                entity.getIsCounterpartSigned());
+        schema.setSignStatus(
+                entity.getSignStatus());
         schema.setSubmitTime(
                 entity.getSubmitTime());
         return schema;

@@ -3,10 +3,12 @@ package com.flightsearch.services;
 import com.flightsearch.exceptions.NotFoundException;
 import com.flightsearch.models.Document;
 import com.flightsearch.repositories.DocumentRepository;
+import com.flightsearch.repositories.SignRepository;
 import com.flightsearch.schemas.document.*;
 import com.flightsearch.services.mapping.DocumentMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -15,6 +17,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class DocumentService {
     final DocumentRepository docRepository;
+
+    final SignRepository signRepository;
+
     final DocumentMapper docMapper;
 
     public Set<DocumentRead> getAll() {
@@ -23,16 +28,19 @@ public class DocumentService {
                 .collect(Collectors.toSet());
     }
 
+    @Transactional
     public DocumentRead create(DocumentCreate schema) {
         Document newDoc = docMapper.mapDocumentCreateToEntity(schema);
-        newDoc = docRepository.save(newDoc);
+        docRepository.save(newDoc);
+        signRepository.saveAll(newDoc.getSigns());
         return docMapper.mapEntityToDocumentRead(newDoc);
     }
 
+    @Transactional
     public DocumentRead update(Long id, DocumentUpdate schema) {
         Document doc = docRepository.getReferenceById(id);
         docMapper.mapAndUpdateEntity(schema, doc);
-        doc = docRepository.save(doc);
+        signRepository.saveAll(doc.getSigns());
         return docMapper.mapEntityToDocumentRead(doc);
     }
 
@@ -53,8 +61,6 @@ public class DocumentService {
 
     public void delete(Long documentId) {
         Document doc = docRepository.findById(documentId).orElseThrow(NotFoundException::new);
-        docRepository.delete(
-                doc
-        );
+        docRepository.delete(doc);
     }
 }

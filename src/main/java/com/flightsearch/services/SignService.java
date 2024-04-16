@@ -2,6 +2,7 @@ package com.flightsearch.services;
 
 import com.flightsearch.exceptions.NotFoundException;
 import com.flightsearch.models.Sign;
+import com.flightsearch.models.SignStatus;
 import com.flightsearch.repositories.SignRepository;
 import com.flightsearch.schemas.document.SignRead;
 import com.flightsearch.services.mapping.SignMapper;
@@ -19,15 +20,15 @@ public class SignService {
     public SignRead confirm(Long id) {
         Sign sign = signRepository.findById(id).orElseThrow(NotFoundException::new);
         sign.setSubmitTime(new Timestamp(System.currentTimeMillis()));
-        sign.setIsCounterpartSigned(true);
+        sign.setSignStatus(SignStatus.CONFIRMED);
         sign = signRepository.save(sign);
         return signMapper.mapEntityToSignRead(sign);
     }
 
-    public SignRead removeSign(Long id) {
+    public SignRead reject(Long id) {
         Sign sign = signRepository.findById(id).orElseThrow(NotFoundException::new);
-        sign.setSubmitTime(null);
-        sign.setIsCounterpartSigned(false);
+        sign.setSubmitTime(new Timestamp(System.currentTimeMillis()));
+        sign.setSignStatus(SignStatus.REJECTED);
         sign = signRepository.save(sign);
         return signMapper.mapEntityToSignRead(sign);
     }
