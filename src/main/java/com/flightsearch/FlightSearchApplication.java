@@ -2,10 +2,10 @@ package com.flightsearch;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 @SpringBootApplication
-@RestController
+@ConfigurationPropertiesScan("com.flightsearch.config.properties")
 public class FlightSearchApplication {
 
     public static void main(String[] args) {
