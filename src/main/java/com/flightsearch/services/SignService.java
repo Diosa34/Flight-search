@@ -19,7 +19,9 @@ public class SignService {
     final SecurityService securityService;
 
     public SignRead confirm(Long id) {
-        Sign sign = signRepository.findById(id).orElseThrow(NotFoundException::new);
+        Sign sign = signRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(id, "Sign")
+        );
         securityService.userRequired(sign.getCounterpart());
         sign.setSubmitTime(new Timestamp(System.currentTimeMillis()));
         sign.setSignStatus(SignStatus.CONFIRMED);
@@ -28,7 +30,9 @@ public class SignService {
     }
 
     public SignRead reject(Long id) {
-        Sign sign = signRepository.findById(id).orElseThrow(NotFoundException::new);
+        Sign sign = signRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(id, "Sign")
+        );
         securityService.userRequired(sign.getCounterpart());
         sign.setSubmitTime(new Timestamp(System.currentTimeMillis()));
         sign.setSignStatus(SignStatus.REJECTED);
@@ -37,7 +41,9 @@ public class SignService {
     }
 
     public void delete(Long id) {
-        Sign sign = signRepository.findById(id).orElseThrow(NotFoundException::new);
+        Sign sign = signRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(id, "Sign")
+        );
         securityService.userRequired(sign.getDocument().getOwner());
         signRepository.delete(sign);
     }

@@ -18,7 +18,9 @@ public class SignMapper {
 
     protected Sign mapSignBaseToEntity(SignBase schema, Sign entity) {
         entity.setCounterpart(
-                userRepository.findById(schema.getCounterpartId()).orElseThrow(NotFoundException::new)
+                userRepository.findById(schema.getCounterpartId()).orElseThrow(
+                        () -> new NotFoundException(schema.getCounterpartId(), "User")
+                )
         );
         return entity;
     }

@@ -55,14 +55,18 @@ public class DocumentService {
     }
 
     public DocumentRead getById(Long id) {
-        Document doc = docRepository.findById(id).orElseThrow(NotFoundException::new);
+        Document doc = docRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(id, "Document")
+        );
         return docMapper.mapEntityToDocumentRead(
                 doc
         );
     }
 
     public void delete(Long documentId) {
-        Document doc = docRepository.findById(documentId).orElseThrow(NotFoundException::new);
+        Document doc = docRepository.findById(documentId).orElseThrow(
+                () -> new NotFoundException(documentId, "Document")
+        );
         securityService.userRequired(doc.getOwner());
         docRepository.delete(doc);
     }

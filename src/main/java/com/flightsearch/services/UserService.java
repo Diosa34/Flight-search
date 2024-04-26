@@ -28,7 +28,9 @@ public class UserService {
     }
 
     public UserRead getById(Long id) {
-        User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(id, "User")
+        );
 //        User xmlUser = xmlUserRepository.getById(id);
         return userMapper.mapEntityToUserRead(user);
     }
@@ -40,7 +42,9 @@ public class UserService {
     }
 
     public void delete(Long id) {
-        User user = userRepository.findById(id).orElseThrow(NotFoundException::new);
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(id, "User")
+        );
         userRepository.delete(user);
         xmlUserRepository.delete(user);
     }

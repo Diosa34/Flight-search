@@ -3,6 +3,7 @@ package com.flightsearch.controllers;
 
 import com.flightsearch.exceptions.NotFoundException;
 import com.flightsearch.exceptions.PermissionDeniedException;
+import com.flightsearch.exceptions.schemas.ObjectNotFoundSchema;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -49,8 +50,8 @@ public class ErrorHandlingControllerAdvice {
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(value = NotFoundException.class)
-    public String handleNotFoundExceptions(NotFoundException ignoredEx) {
-        return "Object not found";
+    public ObjectNotFoundSchema handleNotFoundExceptions(NotFoundException exception) {
+        return new ObjectNotFoundSchema(exception);
     }
 
     @ResponseBody

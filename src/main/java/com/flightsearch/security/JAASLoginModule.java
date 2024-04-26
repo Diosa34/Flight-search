@@ -56,7 +56,7 @@ public class JAASLoginModule implements LoginModule {
     @Override
     public boolean commit() {
         if(!loginSucceeded) return false;
-        if(login == null) throw new NotFoundException();
+        if(login == null) throw new NotFoundException("null", "User");
         Principal principal = (UserPrincipal) () -> login;
         subject.getPrincipals().add(principal);
         return true;

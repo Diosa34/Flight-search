@@ -56,7 +56,10 @@ public class XMLUserRepository {
     }
 
     public User getById(Long id) {
-        return getAll().stream().filter(elem -> Objects.equals(elem.getId(), id)).findFirst().orElseThrow(NotFoundException::new);
+        return getAll().stream()
+                .filter(elem -> Objects.equals(elem.getId(), id))
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException(id, "User XML"));
     }
 
     public void delete(User user) {
