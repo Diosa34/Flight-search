@@ -6,15 +6,13 @@ import com.flightsearch.repositories.UserRepository;
 import com.flightsearch.schemas.document.SignBase;
 import com.flightsearch.schemas.document.SignCreate;
 import com.flightsearch.schemas.document.SignRead;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class SignMapper {
     private final UserRepository userRepository;
-
-    public SignMapper(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     protected Sign mapSignBaseToEntity(SignBase schema, Sign entity) {
         entity.setCounterpart(
@@ -43,6 +41,10 @@ public class SignMapper {
                 entity.getSignStatus());
         schema.setSubmitTime(
                 entity.getSubmitTime());
+        if (entity.getFile() != null) {
+            schema.setFileId(
+                    entity.getFile().getId());
+        }
         return schema;
     }
 }

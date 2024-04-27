@@ -18,12 +18,16 @@ public class Sign {
 
 
     @ManyToOne
-    @JoinColumn(name = "counterpart_id") // todo: после настройки идентификации добавить nullable = false
+    @JoinColumn(name = "counterpart_id", nullable = false)
     private User counterpart;
 
     @ManyToOne
     @JoinColumn(name = "document_id", nullable = false)
     private Document document;
+
+    @OneToOne
+    @JoinColumn(name = "file_id")
+    private FileInfo file = null;
 
 
     @Column(nullable = false)

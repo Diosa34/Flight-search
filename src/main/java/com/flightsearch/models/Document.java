@@ -18,21 +18,21 @@ public class Document {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "owner_id")
+    @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
     @OneToMany(mappedBy = "document", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Sign> signs;
 
+    @OneToOne
+    @JoinColumn(name = "file_id", nullable = false)
+    private FileInfo file;
 
     @Column(length = 50, nullable = false)
     private String title;
 
     @Column(length = 512, nullable = false)
     private String description;
-
-    @Column(length = 256, nullable = false)
-    private String key;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Timestamp creationDate = new Timestamp(System.currentTimeMillis());

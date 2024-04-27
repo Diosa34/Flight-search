@@ -2,8 +2,11 @@ package com.flightsearch.schemas.document;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+
+import java.util.UUID;
 
 @Data
 public class DocumentBase {
@@ -17,8 +20,6 @@ public class DocumentBase {
     @Size(max = 512)
     private String description;
 
-    @Schema(example = "file.pdf")
-    @NotBlank
-    @Size(max = 256)
-    private String key;
+    @NotNull
+    private UUID fileId;
 }

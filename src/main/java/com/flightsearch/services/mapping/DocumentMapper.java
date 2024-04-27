@@ -1,31 +1,34 @@
 package com.flightsearch.services.mapping;
 
+import com.flightsearch.exceptions.NotFoundException;
 import com.flightsearch.models.Document;
 import com.flightsearch.models.Sign;
 import com.flightsearch.models.SignStatus;
+import com.flightsearch.repositories.FileInfoRepository;
 import com.flightsearch.schemas.document.DocumentBase;
 import com.flightsearch.schemas.document.DocumentCreate;
 import com.flightsearch.schemas.document.DocumentRead;
 import com.flightsearch.schemas.document.DocumentUpdate;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class DocumentMapper {
     private final SignMapper signMapper;
-
     private final UserMapper userMapper;
-
-    public DocumentMapper(SignMapper signMapper, UserMapper userMapper) {
-        this.signMapper = signMapper;
-        this.userMapper = userMapper;
-    }
+    private final FileInfoRepository fileInfoRepository;
 
     protected Document mapDocumentBaseToEntity(DocumentBase schema, Document entity) {
         entity.setTitle(schema.getTitle());
         entity.setDescription(schema.getDescription());
-        entity.setKey(schema.getKey());
+        entity.setFile(
+                fileInfoRepository.findById(schema.getFileId()).orElseThrow(
+                        () -> new NotFoundException(schema.getFileId(), "FileInfo")
+                )
+        );
         return entity;
     }
 
@@ -47,7 +50,11 @@ public class DocumentMapper {
     public void mapAndUpdateEntity(DocumentUpdate schema, Document entity) {
         entity.setTitle(schema.getTitle());
         entity.setDescription(schema.getDescription());
-        entity.setKey(schema.getKey());
+        entity.setFile(
+                fileInfoRepository.findById(schema.getFileId()).orElseThrow(
+                        () -> new NotFoundException(schema.getFileId(), "FileInfo")
+                )
+        );
         entity.setSigns(
                 schema.getSigns().stream()
                         .map(signMapper::mapSignCreateToEntity)
@@ -69,7 +76,7 @@ public class DocumentMapper {
         );
         schema.setTitle(entity.getTitle());
         schema.setDescription(entity.getDescription());
-        schema.setKey(entity.getKey());
+        schema.setFileId(entity.getFile().getId());
         schema.setCreationDate(entity.getCreationDate());
         schema.setIsSigned(entity.getSigns().stream()
                 .map(Sign::getSignStatus)

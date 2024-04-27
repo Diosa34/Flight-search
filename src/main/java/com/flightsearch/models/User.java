@@ -59,6 +59,10 @@ public class User {
     @OneToMany(mappedBy = "owner")
     private List<Document> documents = new ArrayList<>();
 
+    public String getFullName() {
+        return name + " " + surname;
+    }
+
     public void setPassword(String password) {
         this.passwordHash = new BCryptPasswordEncoder().encode(password);
     }
