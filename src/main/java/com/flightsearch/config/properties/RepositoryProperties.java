@@ -21,10 +21,10 @@ import java.nio.file.Paths;
 @ConfigurationPropertiesScan
 @ConfigurationProperties(prefix = "application.repositories")
 public class RepositoryProperties {
-    private String baseDir = System.getProperty("user.dir");
+    private String baseDir = System.getProperty("user.dir") + "/application-repositories";
     private String filesDir = "files";
     private String xmlDir = "xml";
-    private String userXmlFilename = "user.xml";
+    private String userXmlFilename = "users.xml";
 
     public Path getBaseDir() {
         return Paths.get(baseDir).toAbsolutePath().normalize();
@@ -39,6 +39,6 @@ public class RepositoryProperties {
     }
 
     public Path getUserXmlFilename() {
-        return getBaseDir().resolve(userXmlFilename).normalize();
+        return getXmlDir().resolve(userXmlFilename).normalize();
     }
 }

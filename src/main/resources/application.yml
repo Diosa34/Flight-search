@@ -18,6 +18,3 @@ application:
     dev-url: http://localhost:8080
     helios-url: http://localhost:18080
     prod-url: http://localhost:80
-  repositories:
-    base-dir: /Users/klim405/Desktop/ITMO/Code/Java/Web2Lab1-4/src/main/resources
-    files-dir: files
