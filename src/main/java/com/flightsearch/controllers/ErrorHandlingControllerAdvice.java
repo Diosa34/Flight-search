@@ -4,6 +4,7 @@ package com.flightsearch.controllers;
 import com.flightsearch.exceptions.NotFoundException;
 import com.flightsearch.exceptions.PermissionDeniedException;
 import com.flightsearch.exceptions.schemas.ObjectNotFoundSchema;
+import com.flightsearch.exceptions.schemas.PermissionDeniedSchema;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -57,7 +58,7 @@ public class ErrorHandlingControllerAdvice {
     @ResponseBody
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(value = PermissionDeniedException.class)
-    public String handlePermissionDenied(PermissionDeniedException ignoredEx) {
-        return "Permission denied";
+    public PermissionDeniedSchema handlePermissionDenied(PermissionDeniedException exception) {
+        return new PermissionDeniedSchema(exception);
     }
 }

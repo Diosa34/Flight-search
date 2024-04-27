@@ -25,7 +25,7 @@ public class SecurityService {
 
     public void userRequired(User user) {
         if (!getCurrentUser().getId().equals(user.getId())) {
-            throw new PermissionDeniedException();
+            throw new PermissionDeniedException("USER");
         }
     }
 }
