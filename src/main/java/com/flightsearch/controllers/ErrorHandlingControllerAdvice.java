@@ -3,6 +3,8 @@ package com.flightsearch.controllers;
 
 import com.flightsearch.exceptions.NotFoundException;
 import com.flightsearch.exceptions.PermissionDeniedException;
+import com.flightsearch.exceptions.repositories.FileRepositoryException;
+import com.flightsearch.exceptions.schemas.FileRepositoryExceptionSchema;
 import com.flightsearch.exceptions.schemas.ObjectNotFoundSchema;
 import com.flightsearch.exceptions.schemas.PermissionDeniedSchema;
 import org.hibernate.exception.ConstraintViolationException;
@@ -60,5 +62,12 @@ public class ErrorHandlingControllerAdvice {
     @ExceptionHandler(value = PermissionDeniedException.class)
     public PermissionDeniedSchema handlePermissionDenied(PermissionDeniedException exception) {
         return new PermissionDeniedSchema(exception);
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    @ExceptionHandler(value = FileRepositoryException.class)
+    public FileRepositoryExceptionSchema handleFileRepositoryException(FileRepositoryException exception) {
+        return new FileRepositoryExceptionSchema(exception);
     }
 }

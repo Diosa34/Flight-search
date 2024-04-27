@@ -4,6 +4,7 @@ import com.flightsearch.config.properties.RepositoryProperties;
 import com.flightsearch.exceptions.repositories.FileRepositoryException;
 import com.flightsearch.exceptions.repositories.FileRepositoryMethodException;
 import com.flightsearch.models.FileInfo;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -120,12 +121,48 @@ public class FileRepository {
      * @see FileRepositoryMethodException
      * @see FileRepositoryException
      * */
+    @Transactional
     public FileInfo saveFile(FileInfo fileInfo, String content) {
         if (fileInfo.getId() != null) {
             throw new FileRepositoryMethodException(
                     "saveFile нельзя использовать для файлов сохраненных в бд."
             );
         }
+        DBRepo.save(fileInfo);
+        try {
+            writeFile(fileInfo, content);
+        } catch (IOException ignore) {
+            throw new FileRepositoryException(
+                    "Не удалось создать файл. Недостаточно прав доступа.",
+                    fileInfo.getLocalPath()
+            );
+        }
+        return fileInfo;
+    }
+
+    /**
+     * Создает и сохраняет файл в памяти заданной директории, путь к файлу формируется из
+     * 'директории файлов' + localDir + filename.
+     * Также выполняется сохранение сущности описывающий данный файл в БД.
+     * @param localDir путь к внутрений директории
+     * @param filename нового имя файла
+     * @param content строка которую нужно записать в файл.
+     * @return сохраненная сущность
+     * */
+    @Transactional
+    public FileInfo saveFile(String localDir, String filename, String content) {
+        if (filename.startsWith("/") || filename.startsWith("~")) {
+            throw new FileRepositoryMethodException("Локальная директория не может начинатся с '/' или '~'");
+        }
+        if (localDir.startsWith("/") || localDir.startsWith("~")) {
+            throw new FileRepositoryMethodException("Имя файла не может начинатся с '/' или '~'");
+        }
+        FileInfo fileInfo = DBRepo.save(
+                FileInfo.builder()
+                        .localDir(localDir)
+                        .filename(filename)
+                        .build()
+        );
         DBRepo.save(fileInfo);
         try {
             writeFile(fileInfo, content);
@@ -151,6 +188,7 @@ public class FileRepository {
      * @see FileRepositoryMethodException
      * @see FileRepositoryException
      * */
+    @Transactional
     public FileInfo saveFile(FileInfo fileInfo, MultipartFile file) {
         if (fileInfo.getId() != null) {
             throw new FileRepositoryMethodException(
