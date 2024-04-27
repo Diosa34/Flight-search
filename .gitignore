@@ -31,7 +31,7 @@ build/
 !**/src/test/**/build/
 
 ### Resources ###
-src/main/resources/users.xml
+application-repositories
 
 ### VS Code ###
 .vscode/

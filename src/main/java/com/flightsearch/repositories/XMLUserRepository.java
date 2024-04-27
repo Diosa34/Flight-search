@@ -4,14 +4,13 @@ import com.flightsearch.config.properties.RepositoryProperties;
 import com.flightsearch.exceptions.NotFoundException;
 import com.flightsearch.models.User;
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.security.AnyTypePermission;
 import org.springframework.stereotype.Repository;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Repository
@@ -22,32 +21,31 @@ public class XMLUserRepository {
     public XMLUserRepository(RepositoryProperties repositoryProperties) {
         xmlPath = repositoryProperties.getUserXmlFilename();
         xstream = new XStream();
-        xstream.addPermission(AnyTypePermission.ANY);
+        xstream.allowTypes(new Class[] {User.class});
+        xstream.alias("user", User.class);
     }
 
-    public ArrayList<User> getAll() {
-        xstream.alias("user", User.class);
-        try {
-            if (!xmlPath.toFile().exists()) {
-                Files.createDirectories(xmlPath.getParent());
-                Files.writeString(xmlPath, "<list></list>");
-            }
-            return (ArrayList<User>) xstream.fromXML(xmlPath.toFile(), "list");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    public List<User> getAll() {
+        if (Files.exists(xmlPath)) {
+            return (List<User>) xstream.fromXML(xmlPath.toFile());
+        } else {
+            return new ArrayList<>();
         }
     }
 
     public void save(User newUser){
-        xstream.alias("user", User.class);
-        ArrayList<User> users = getAll();
+        List<User> users = getAll();
         users.add(newUser);
         saveAll(users);
     }
 
-    public void saveAll(ArrayList<User> users){
+    public void saveAll(List<User> users){
         try {
-            xstream.toXML(users, new FileWriter(xmlPath.toFile(), false));
+            if (!Files.exists(xmlPath)) {
+                Files.createDirectories(xmlPath.getParent());
+                Files.createFile(xmlPath);
+            }
+            Files.writeString(xmlPath, xstream.toXML(users));
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -61,7 +59,7 @@ public class XMLUserRepository {
     }
 
     public void delete(User user) {
-        ArrayList<User> users = getAll();
+        List<User> users = getAll();
         users.remove(user);
         saveAll(users);
     }
