@@ -5,23 +5,33 @@
 ```
 ## Структура
 ```text
-- config
-- controllers
-- exceptions
-- models
-- repositories
-- services
-- schemas
++-- config    
+│   \-- properties
++-- controllers
++-- exceptions
+│   +-- repositories
+│   \-- schemas
++-- models
++-- repositories
++-- schemas
++-- security
+\-- services
+    \-- mapping
+
 ```
 - config – Классы конфигурации
+- config.properties – Классы свойств
 - controllers – Конроллеры
+- exceptions – Классы ошибок
+- exceptions.repositories – Классы репозиториев
+- exceptions.schemas – Схемы (TDO) возвращаемые конторолером ошибок.
 - models – Сущности (Модели)
 - repositories – Репозитории
-- services – Сервисы, включая сервисы которые управляют БД
-- schemas – Обьект передаваемых данных (Transfer Data Object), 
-обекты отвечающие за валидацию данных. 
-Пользовательские данные передаются в tdo, после преобразуются в сущность (модель).
-Преобразование происходит посредством сервиса, управляющего БД.
+- schemas – Обьект передаваемых данных (Transfer Data Object),
+обекты отвечающие за валидацию данных.
+- security – Все относящиеся к безопасности
+- services – Сервисы, включая сервисы которые управляют БД.
+- services.mapping – Сервисы преобразущие обьекты схем в обекты моделей.
 ## Сборка и запуск
 Для сборки проекта выполнить
 ```shell
