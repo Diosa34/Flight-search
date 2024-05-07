@@ -26,11 +26,11 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/document/**").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/user").authenticated()
-                        .requestMatchers(HttpMethod.PUT, "/user").authenticated()
-                        .requestMatchers(HttpMethod.DELETE, "/user").authenticated()
-                        .anyRequest().permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/user/*").hasRole("ADMIN")
+                        .requestMatchers("/document/**").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers("/document").hasAnyRole("ADMIN", "USER")
+                        .anyRequest().authenticated()
                 );
 
         return http.build();
