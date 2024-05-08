@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -27,12 +28,20 @@ public class SecurityConfig {
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/swagger-ui/**").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/user/*").hasRole("ADMIN")
-                        .requestMatchers("/document/**").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers("/document").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.DELETE, "/user/*").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/user/*").hasAuthority("ADMIN")
+                        .requestMatchers("/document/**").hasAnyAuthority("ADMIN", "USER")
+                        .requestMatchers("/document").hasAnyAuthority("ADMIN", "USER")
+                        .requestMatchers("/files/**").hasAnyAuthority("ADMIN", "USER")
                         .anyRequest().authenticated()
                 );
-
+        http
+                .logout(lOut -> lOut
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .permitAll()
+        );
         return http.build();
     }
 
