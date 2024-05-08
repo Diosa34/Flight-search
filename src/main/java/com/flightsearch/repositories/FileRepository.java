@@ -1,15 +1,21 @@
 package com.flightsearch.repositories;
 
 import com.flightsearch.config.properties.RepositoryProperties;
+import com.flightsearch.exceptions.NotFoundException;
 import com.flightsearch.exceptions.repositories.FileRepositoryException;
 import com.flightsearch.exceptions.repositories.FileRepositoryMethodException;
 import com.flightsearch.models.FileInfo;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.UUID;
 
 @Repository
 public class FileRepository {
@@ -21,6 +27,10 @@ public class FileRepository {
         filesDir = props.getFilesDir();
     }
 
+    /**
+     * Возвращает абсолютный путь до файла с учетом переименования.
+     * Для корректонй работы необходим экземпляр FileInfo модели с id.
+     * */
     protected Path resolveFilePath(FileInfo fileInfo) {
         return filesDir
                 .resolve(fileInfo.getLocalDir())
@@ -208,5 +218,25 @@ public class FileRepository {
             );
         }
         return fileInfo;
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class CustomFileResource {
+        public Resource resource;
+        public FileInfo fileInfo;
+        public long length;
+    }
+
+    public CustomFileResource getFileResource(UUID fileId) {
+        FileInfo fileInfo = DBRepo.findById(fileId).orElseThrow(
+                () -> new NotFoundException(fileId, "FileInfo")
+        );
+        Path filePath = resolveFilePath(fileInfo);
+        return new CustomFileResource(
+                new FileSystemResource(filePath),
+                fileInfo,
+                filePath.toFile().length()
+        );
     }
 }

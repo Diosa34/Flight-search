@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,5 +31,9 @@ public class FileService {
         return fileInfoRepository.findAll().stream()
                 .map(fileInfoMapper::mapEntityToFileInfoRead)
                 .collect(Collectors.toList());
+    }
+
+    public FileRepository.CustomFileResource loadFile(UUID fileId) {
+       return fileRepository.getFileResource(fileId);
     }
 }
