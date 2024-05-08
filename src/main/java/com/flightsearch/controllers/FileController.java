@@ -42,7 +42,7 @@ public class FileController {
     }
 
     @Operation
-    @GetMapping("/upload/{id}")
+    @GetMapping("/download/{id}")
     public ResponseEntity<Resource> getFile(@PathVariable UUID id) {
         FileRepository.CustomFileResource fileResource = fileService.loadFile(id);
         HttpHeaders headers = new HttpHeaders();
