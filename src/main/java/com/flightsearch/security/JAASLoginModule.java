@@ -69,7 +69,9 @@ public class JAASLoginModule implements LoginModule {
 
     @Override
     public boolean logout() throws LoginException {
-        return false;
+        subject.getPrincipals().removeIf(principal -> principal instanceof UserPrincipal);
+        loginSucceeded = false;
+        return true;
     }
 }
 
