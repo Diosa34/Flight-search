@@ -222,18 +222,18 @@ public class FileRepository {
 
     @Data
     @AllArgsConstructor
-    public static class CustomFileResource {
+    public static class FileResource {
         public Resource resource;
         public FileInfo fileInfo;
         public long length;
     }
 
-    public CustomFileResource getFileResource(UUID fileId) {
+    public FileResource getFileResource(UUID fileId) {
         FileInfo fileInfo = DBRepo.findById(fileId).orElseThrow(
                 () -> new NotFoundException(fileId, "FileInfo")
         );
         Path filePath = resolveFilePath(fileInfo);
-        return new CustomFileResource(
+        return new FileResource(
                 new FileSystemResource(filePath),
                 fileInfo,
                 filePath.toFile().length()

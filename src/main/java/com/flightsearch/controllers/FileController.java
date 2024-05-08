@@ -44,7 +44,7 @@ public class FileController {
     @Operation
     @GetMapping("/download/{id}")
     public ResponseEntity<Resource> getFile(@PathVariable UUID id) {
-        FileRepository.CustomFileResource fileResource = fileService.loadFile(id);
+        FileRepository.FileResource fileResource = fileService.loadFile(id);
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + fileResource.fileInfo.getFilename() + "\"");

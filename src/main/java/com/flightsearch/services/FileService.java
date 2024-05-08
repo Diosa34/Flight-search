@@ -33,7 +33,7 @@ public class FileService {
                 .collect(Collectors.toList());
     }
 
-    public FileRepository.CustomFileResource loadFile(UUID fileId) {
+    public FileRepository.FileResource loadFile(UUID fileId) {
        return fileRepository.getFileResource(fileId);
     }
 }
