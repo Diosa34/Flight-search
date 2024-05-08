@@ -12,6 +12,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 
 @Tag(name = "files")
 @RestController
@@ -26,5 +28,11 @@ public class FileController {
     public FileInfoRead saveFile(
             @RequestParam("file") MultipartFile file, @ParameterObject FileInfoCreate schema) {
         return fileService.saveFile(file, schema);
+    }
+
+    @Operation(summary = "Список файлов")
+    @GetMapping
+    public List<FileInfoRead> getFiles() {
+        return fileService.getFileInfos();
     }
 }
