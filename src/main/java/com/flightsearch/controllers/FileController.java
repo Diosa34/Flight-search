@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 
-@Tag(name = "files")
+@Tag(name = "Файлы")
 @RestController
 @RequestMapping("/files")
 @Validated
