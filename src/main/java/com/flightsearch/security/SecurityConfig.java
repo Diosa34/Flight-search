@@ -27,13 +27,12 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/user/*").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/user/*").hasAuthority("ADMIN")
                         .requestMatchers("/document/**").hasAnyAuthority("ADMIN", "USER")
                         .requestMatchers("/document").hasAnyAuthority("ADMIN", "USER")
                         .requestMatchers("/files/**").hasAnyAuthority("ADMIN", "USER")
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 );
         http
                 .logout(lOut -> lOut
