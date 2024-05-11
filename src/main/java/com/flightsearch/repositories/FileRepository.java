@@ -5,6 +5,7 @@ import com.flightsearch.exceptions.NotFoundException;
 import com.flightsearch.exceptions.repositories.FileRepositoryException;
 import com.flightsearch.exceptions.repositories.FileRepositoryMethodException;
 import com.flightsearch.models.FileInfo;
+import com.flightsearch.utils.ZipTools;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,10 +22,12 @@ import java.util.UUID;
 public class FileRepository {
     final private FileInfoRepository DBRepo;
     final private Path filesDir;
+    final private Path tempDir;
 
     public FileRepository(FileInfoRepository DBRepo, RepositoryProperties props) {
         this.DBRepo = DBRepo;
         filesDir = props.getFilesDir();
+        tempDir = props.getTempDir();
     }
 
     /**
@@ -226,6 +229,13 @@ public class FileRepository {
         public Resource resource;
         public FileInfo fileInfo;
         public long length;
+
+        public String getFilename() {
+            if (fileInfo == null) {
+                return Paths.get(resource.getFilename()).getFileName().toString();
+            }
+            return fileInfo.getFilename();
+        }
     }
 
     public FileResource getFileResource(UUID fileId) {
@@ -238,5 +248,38 @@ public class FileRepository {
                 fileInfo,
                 filePath.toFile().length()
         );
+    }
+
+    public Path zipFiles(String zipName, FileInfo... fileInfos) throws IOException {
+        createDir(tempDir);
+        Path zipTempDir = Files.createTempDirectory(tempDir, "zip");
+        Path srcDir = zipTempDir.resolve(zipName);
+        createDir(srcDir);
+        Path zipFilePath = zipTempDir.resolve(zipName + ".zip");
+
+        for (FileInfo fileInfo : fileInfos) {
+            Path newFilePath = srcDir.resolve(fileInfo.getFilename());
+            if (Files.exists(newFilePath)) {
+                newFilePath = srcDir.resolve(System.nanoTime() + fileInfo.getFilename());
+            }
+            Files.copy(resolveFilePath(fileInfo), newFilePath);
+        }
+
+        ZipTools.zip(srcDir, zipFilePath);
+
+        return zipFilePath;
+    }
+
+    public FileResource getZipResource(String zipName, FileInfo... fileInfos) {
+        try {
+            Path zipFilePath = zipFiles(zipName, fileInfos);
+            return new FileResource(
+                    new FileSystemResource(zipName),
+                    null,
+                    zipFilePath.toFile().length()
+            );
+        } catch (IOException ignore) {
+            throw new FileRepositoryException("Не удалось собрать архив.", "");
+        }
     }
 }

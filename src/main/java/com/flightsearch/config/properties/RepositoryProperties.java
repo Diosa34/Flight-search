@@ -22,12 +22,17 @@ import java.nio.file.Paths;
 @ConfigurationProperties(prefix = "application.repositories")
 public class RepositoryProperties {
     private String baseDir = System.getProperty("user.dir") + "/application-repositories";
+    private String tempDir = "temp";
     private String filesDir = "files";
     private String xmlDir = "xml";
     private String userXmlFilename = "users.xml";
 
     public Path getBaseDir() {
         return Paths.get(baseDir).toAbsolutePath().normalize();
+    }
+
+    public Path getTempDir() {
+        return getBaseDir().resolve(tempDir).normalize();
     }
 
     public Path getFilesDir() {

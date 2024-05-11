@@ -2,7 +2,11 @@ package com.flightsearch.services;
 
 import com.flightsearch.exceptions.NotFoundException;
 import com.flightsearch.models.Document;
+import com.flightsearch.models.FileInfo;
+import com.flightsearch.models.Sign;
+import com.flightsearch.models.SignStatus;
 import com.flightsearch.repositories.DocumentRepository;
+import com.flightsearch.repositories.FileRepository;
 import com.flightsearch.repositories.SignRepository;
 import com.flightsearch.schemas.document.*;
 import com.flightsearch.services.mapping.DocumentMapper;
@@ -10,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -18,6 +23,7 @@ import java.util.stream.Collectors;
 public class DocumentService {
     final DocumentRepository docRepository;
     final SignRepository signRepository;
+    final FileRepository fileRepository;
     final DocumentMapper docMapper;
     final SecurityService securityService;
 
@@ -69,5 +75,18 @@ public class DocumentService {
         );
         securityService.userRequired(doc.getOwner());
         docRepository.delete(doc);
+    }
+
+    public FileRepository.FileResource getDocumentsFileResource(Long documentId) {
+        Document doc = docRepository.findById(documentId).orElseThrow(
+                () -> new NotFoundException(documentId, "Document")
+        );
+        List<FileInfo> fileInfos = doc.getSigns().stream()
+                .filter(sign -> sign.getSignStatus() == SignStatus.CONFIRMED)
+                .map(Sign::getFile)
+                .collect(Collectors.toList());
+        fileInfos.add(doc.getFile());
+        FileInfo[] fileInfosArray = new FileInfo[fileInfos.size()];
+        return fileRepository.getZipResource("document", fileInfos.toArray(fileInfosArray));
     }
 }
