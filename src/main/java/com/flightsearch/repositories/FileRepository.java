@@ -5,7 +5,7 @@ import com.flightsearch.exceptions.NotFoundException;
 import com.flightsearch.exceptions.repositories.FileRepositoryException;
 import com.flightsearch.exceptions.repositories.FileRepositoryMethodException;
 import com.flightsearch.models.FileInfo;
-import com.flightsearch.utils.ZipTools;
+import com.flightsearch.utils.Zipper;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -250,31 +250,20 @@ public class FileRepository {
         );
     }
 
-    public Path zipFiles(String zipName, FileInfo... fileInfos) throws IOException {
-        createDir(tempDir);
-        Path zipTempDir = Files.createTempDirectory(tempDir, "zip");
-        Path srcDir = zipTempDir.resolve(zipName);
-        createDir(srcDir);
-        Path zipFilePath = zipTempDir.resolve(zipName + ".zip");
-
-        for (FileInfo fileInfo : fileInfos) {
-            Path newFilePath = srcDir.resolve(fileInfo.getFilename());
-            if (Files.exists(newFilePath)) {
-                newFilePath = srcDir.resolve(System.nanoTime() + fileInfo.getFilename());
-            }
-            Files.copy(resolveFilePath(fileInfo), newFilePath);
-        }
-
-        ZipTools.zip(srcDir, zipFilePath);
-
-        return zipFilePath;
-    }
-
     public FileResource getZipResource(String zipName, FileInfo... fileInfos) {
         try {
-            Path zipFilePath = zipFiles(zipName, fileInfos);
+            createDir(tempDir);
+            Path zipTempDir = Files.createTempDirectory(tempDir, "zip");
+            Path zipFilePath = zipTempDir.resolve(zipName + ".zip");
+
+            Zipper zipper = new Zipper(zipFilePath);
+            for (FileInfo fileInfo : fileInfos) {
+                zipper.addFile(fileInfo.getFilename(), resolveFilePath(fileInfo).toFile());
+            }
+            zipper.close();
+
             return new FileResource(
-                    new FileSystemResource(zipName),
+                    new FileSystemResource(zipFilePath),
                     null,
                     zipFilePath.toFile().length()
             );
