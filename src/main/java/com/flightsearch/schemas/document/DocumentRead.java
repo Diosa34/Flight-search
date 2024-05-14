@@ -18,5 +18,6 @@ public class DocumentRead extends DocumentBase {
     private Set<SignRead> signs;
 
     private Timestamp creationDate;
+    private Timestamp deadline;
     private Boolean isSigned;
 }

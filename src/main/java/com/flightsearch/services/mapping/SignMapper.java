@@ -35,6 +35,8 @@ public class SignMapper {
         SignRead schema = new SignRead();
         schema.setId(
                 entity.getId());
+        schema.setDocument(
+                entity.getDocument());
         schema.setCounterpartId(
                 entity.getCounterpart().getId());
         schema.setSignStatus(

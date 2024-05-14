@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
 
 @Entity
@@ -36,4 +37,16 @@ public class Document {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Timestamp creationDate = new Timestamp(System.currentTimeMillis());
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp deadline = setDefaultDeadline();
+
+    private Timestamp setDefaultDeadline() {
+        Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentTimestamp);
+        calendar.add(Calendar.DAY_OF_MONTH, 10);
+
+        return new Timestamp(calendar.getTime().getTime());
+    }
 }

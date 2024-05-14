@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -55,6 +57,23 @@ public class SignService {
         sign.setFile(null);
         sign = signRepository.save(sign);
         return signMapper.mapEntityToSignRead(sign);
+    }
+
+    public void setStatus(Long id, SignStatus signStatus) {
+        Sign sign = signRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(id, "Sign")
+        );
+        securityService.userRequired(sign.getCounterpart());
+        sign.setSignStatus(signStatus);
+        signMapper.mapEntityToSignRead(sign);
+    }
+
+    public Set<SignRead> getSignsByCounterpartId(Long counterpartId) {
+        return signRepository.findAllByCounterpartId(counterpartId).orElseThrow(
+                () -> new NotFoundException(counterpartId, "Sign"))
+                .stream()
+                .map(signMapper::mapEntityToSignRead)
+                .collect(Collectors.toSet());
     }
 
     public void delete(Long id) {
