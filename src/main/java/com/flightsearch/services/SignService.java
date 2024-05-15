@@ -1,6 +1,7 @@
 package com.flightsearch.services;
 
 import com.flightsearch.exceptions.NotFoundException;
+import com.flightsearch.exceptions.PermissionDeniedException;
 import com.flightsearch.models.FileInfo;
 import com.flightsearch.models.Sign;
 import com.flightsearch.models.SignStatus;
@@ -25,13 +26,15 @@ public class SignService {
 
     final private FileRepository fileRepository;
 
-    @Transactional
     public SignRead confirm(Long id) {
         Sign sign = signRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(id, "Sign")
         );
 
         securityService.userRequired(sign.getCounterpart());
+        if (sign.getSignStatus() == SignStatus.MISSED_DEADLINE) {
+            throw new PermissionDeniedException("Cрок подписания истёк", "User");
+        }
         FileInfo fileInfo = fileRepository.saveFile(
                 "signs",
                 "sign-" + id + ".txt",
@@ -63,7 +66,6 @@ public class SignService {
         Sign sign = signRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(id, "Sign")
         );
-        securityService.userRequired(sign.getCounterpart());
         sign.setSignStatus(signStatus);
         signMapper.mapEntityToSignRead(sign);
     }

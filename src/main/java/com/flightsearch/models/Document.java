@@ -45,7 +45,7 @@ public class Document {
         Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(currentTimestamp);
-        calendar.add(Calendar.DAY_OF_MONTH, 10);
+        calendar.add(Calendar.SECOND, 13);
 
         return new Timestamp(calendar.getTime().getTime());
     }

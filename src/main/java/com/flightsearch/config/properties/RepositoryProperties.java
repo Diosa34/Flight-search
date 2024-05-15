@@ -1,11 +1,17 @@
 package com.flightsearch.config.properties;
 
 import lombok.Setter;
+import org.quartz.SchedulerException;
+import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import org.springframework.context.annotation.Bean;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Properties;
 
 /**
  * RepositoryProperties класс описывающий основные свойства репозиториев проекта.
@@ -40,5 +46,21 @@ public class RepositoryProperties {
 
     public Path getUserXmlFilename() {
         return getXmlDir().resolve(userXmlFilename).normalize();
+    }
+
+    @Bean
+    public JavaMailSender getJavaMailSender() {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.yandex.ru");
+        mailSender.setPort(587);
+
+        mailSender.setUsername("superalex.osa@yandex.ru");
+        mailSender.setPassword("zhlwbkpqxsxbjvmr");
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+
+        return mailSender;
     }
 }

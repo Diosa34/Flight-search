@@ -50,7 +50,7 @@ public class CustomScheduler {
 //                .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(23, 0))
                 .withSchedule(simpleSchedule()
                         .withIntervalInSeconds(10)
-                        .withRepeatCount(3))
+                        .withRepeatCount(0))
                 .build();
     }
 }

@@ -7,6 +7,21 @@ spring:
       file-size-threshold: 2KB
       max-file-size: 200MB
       max-request-size: 215MB
+  quartz:
+    job-store-type: memory
+    startup-delay: 5
+    overwrite-existing-jobs: true
+    properties:
+      org:
+        quartz:
+          jobStore:
+            class: org.quartz.simpl.RAMJobStore
+          scheduler:
+            instanceId: AUTO
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 5
+
 
 springdoc:
   swagger-ui:
