@@ -8,12 +8,14 @@ import com.flightsearch.schemas.user.UserRead;
 import com.flightsearch.schemas.user.UserRegister;
 import com.flightsearch.services.mapping.UserMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Profile({"prodMain", "devMain"})
 @RequiredArgsConstructor
 public class UserService {
     final UserRepository userRepository;

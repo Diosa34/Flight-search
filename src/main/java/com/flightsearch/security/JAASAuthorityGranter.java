@@ -4,6 +4,7 @@ import com.flightsearch.exceptions.NotFoundException;
 import com.flightsearch.models.User;
 import com.flightsearch.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.jaas.AuthorityGranter;
 
 import java.security.Principal;
@@ -11,6 +12,7 @@ import java.util.Collections;
 import java.util.Set;
 
 @RequiredArgsConstructor
+@Profile({"prodMain", "devMain"})
 public class JAASAuthorityGranter implements AuthorityGranter {
 
     private final UserRepository userRepository;

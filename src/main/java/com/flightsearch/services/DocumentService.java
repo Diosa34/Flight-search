@@ -7,6 +7,7 @@ import com.flightsearch.repositories.SignRepository;
 import com.flightsearch.schemas.document.*;
 import com.flightsearch.services.mapping.DocumentMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@Profile({"prodMain", "devMain"})
 @RequiredArgsConstructor
 public class DocumentService {
     final DocumentRepository docRepository;

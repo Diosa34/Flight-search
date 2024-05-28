@@ -8,6 +8,7 @@ import com.flightsearch.exceptions.schemas.FileRepositoryExceptionSchema;
 import com.flightsearch.exceptions.schemas.ObjectNotFoundSchema;
 import com.flightsearch.exceptions.schemas.PermissionDeniedSchema;
 import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -22,6 +23,7 @@ import java.util.Map;
 
 
 @ControllerAdvice
+@Profile({"prodMain", "devMain"})
 public class ErrorHandlingControllerAdvice {
     @ResponseBody
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)

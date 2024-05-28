@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ import java.util.Set;
     description = "В данном разделе находятся описание методов для работы с документами и подписями."
 )
 @RestController
+@Profile({"prodMain", "devMain"})
 @RequestMapping("/document")
 @Validated
 @AllArgsConstructor

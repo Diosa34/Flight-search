@@ -10,11 +10,13 @@ import com.flightsearch.schemas.document.SignRead;
 import com.flightsearch.services.mapping.SignMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 
 @Service
+@Profile({"prodMain", "devMain"})
 @RequiredArgsConstructor
 public class SignService {
     final private SignRepository signRepository;
