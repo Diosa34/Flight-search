@@ -9,7 +9,11 @@ import org.springframework.stereotype.Service;
 @Service
 @Profile({"prodMain", "devMain"})
 @AllArgsConstructor
-public class PayrollService {
+public class PayrollClientService {
+    /**
+     * Сервис для отправки сообщений в очередь,
+     * для включения необходимо использовать профиль prodMain/devMain.
+     * */
     private JmsTemplate jmsTemplate;
     private SecurityService securityService;
 

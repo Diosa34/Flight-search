@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://pg:5432/studs
+    username: ${DB_USER}
+    password: ${DB_PWD}
+  jpa:
+    database: postgresql
+    generate-ddl: true
+  sql:
+    init:
+      mode: always
+  activemq:
+    packages:
+      trust-all: true
+
+server:
+  port: ${PORT:14881}

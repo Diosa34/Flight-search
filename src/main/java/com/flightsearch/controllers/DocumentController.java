@@ -2,7 +2,7 @@ package com.flightsearch.controllers;
 
 import com.flightsearch.schemas.document.*;
 import com.flightsearch.services.DocumentService;
-import com.flightsearch.services.PayrollService;
+import com.flightsearch.services.PayrollClientService;
 import com.flightsearch.services.SignService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,7 +27,7 @@ import java.util.Set;
 public class DocumentController {
     private final DocumentService docService;
     private final SignService signService;
-    private final PayrollService payrollService;
+    private final PayrollClientService payrollService;
 
     @Operation(
             summary = "Создать документ",
