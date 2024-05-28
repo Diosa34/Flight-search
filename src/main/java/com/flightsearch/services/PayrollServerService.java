@@ -2,10 +2,11 @@ package com.flightsearch.services;
 
 import com.flightsearch.models.*;
 import com.flightsearch.repositories.DocumentRepository;
-import com.flightsearch.repositories.FileRepository;
 import com.flightsearch.repositories.SignRepository;
 import com.flightsearch.repositories.UserRepository;
 import com.flightsearch.schemas.jms.PayrollCreate;
+import com.flightsearch.services.generators.PayrollFileGeneratorService;
+import com.flightsearch.services.generators.SignFileGeneratorService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -21,32 +22,19 @@ public class PayrollServerService {
      * для включения необходимо использовать профиль devPayroll/prodPayroll.
      * */
     private UserRepository userRepository;
+    private PayrollFileGeneratorService payrollFileGeneratorService;
+    private SignFileGeneratorService signFileGeneratorService;
     private DocumentRepository documentRepository;
-    private FileRepository fileRepository;
     private SignRepository signRepository;
-
-
-    private FileInfo createPayrollFile(User user) {
-        return fileRepository.saveFile(
-                "payrolls",
-                "payroll.txt",
-                "Платежная ведомость на имя " + user.getFullName());
-    }
 
     private void createConfirmedSign(User user, Document document) {
         Sign sign = new Sign();
-        FileInfo fileInfo = fileRepository.saveFile(
-                "signs",
-                "sign-" + user.getId() + ".txt",
-                String.format("Документ %s подписан пользоваетелем %s",
-                        document.getTitle(),
-                        user.getFullName())
-        );
         sign.setCounterpart(user);
         sign.setSubmitTime(new Timestamp(System.currentTimeMillis()));
         sign.setSignStatus(SignStatus.CONFIRMED);
-        sign.setFile(fileInfo);
         sign.setDocument(document);
+        FileInfo signFile = signFileGeneratorService.generateSignFile(sign);
+        sign.setFile(signFile);
         signRepository.save(sign);
     }
 
@@ -57,7 +45,8 @@ public class PayrollServerService {
             return;
         }
         Document document = new Document();
-        document.setFile(createPayrollFile(user));
+        FileInfo payrollFile = payrollFileGeneratorService.generatePayrollFile(user);
+        document.setFile(payrollFile);
         document.setOwner(author);
         document.setDescription("Платежная ведомость");
         document.setTitle("Платежная ведомость");
