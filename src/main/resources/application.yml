@@ -7,6 +7,12 @@ spring:
       file-size-threshold: 2KB
       max-file-size: 200MB
       max-request-size: 215MB
+  activemq:
+    broker-url: tcp://localhost:61616
+    user: admin
+    password: admin
+    packages:
+      trusted: com.flightsearch.schemas.jms.PayrollCreate
 
 springdoc:
   swagger-ui:
