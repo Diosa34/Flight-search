@@ -5,12 +5,9 @@ import com.flightsearch.models.SignStatus;
 import com.flightsearch.schemas.document.SignRead;
 import com.flightsearch.schemas.user.UserRead;
 import com.flightsearch.services.*;
-import com.flightsearch.services.mapping.UserMapper;
-import lombok.AllArgsConstructor;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.slf4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +31,7 @@ public class CheckSignDeadlineJob implements Job {
         this.mailService = mailService;
     }
 
+    @Transactional
     public void execute(JobExecutionContext context) {
         logger.info("Started execution of CheckSignDeadlineJob with context = {}", context);
 
@@ -53,15 +51,13 @@ public class CheckSignDeadlineJob implements Job {
                 logger.info("Для пользователя с адресом почты {} осталось {} до дедлайна (в днях)", currentUser.getEmail(), delta);
                 if (delta <= 0 && signStatus != SignStatus.MISSED_DEADLINE) {
                     signService.setStatus(sign.getId(), SignStatus.MISSED_DEADLINE);
-                    mailService.sendSimpleEmail("superalex.osa@yandex.ru", "Welcome", String.format("Cрок подписания документа «%s» истёк.", doc.getTitle()));
+                    mailService.sendSimpleEmail(String.format("Cрок подписания документа «%s» истёк.", doc.getTitle()));
                 } else if (delta < 3 && signStatus == SignStatus.ON_HOLD) {
                     signService.setStatus(sign.getId(), SignStatus.THREE_DAYS_LEFT);
-                    mailService.sendSimpleEmail("superalex.osa@yandex.ru", "Welcome", String.format("До окончания срока подписания документа «%s» осталось менее 3 дней.", doc.getTitle()));
+                    mailService.sendSimpleEmail(String.format("До окончания срока подписания документа «%s» осталось менее 3 дней.", doc.getTitle()));
                 }
-
             }
         }
-
 
         logger.info("Finished execution of CheckSignDeadlineJob");
     }

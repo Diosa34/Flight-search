@@ -2,14 +2,16 @@ package com.flightsearch.schemas.document;
 
 import com.flightsearch.schemas.user.UserRead;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
 public class DocumentRead extends DocumentBase {
     @Schema(example = "1")
     private Long id;

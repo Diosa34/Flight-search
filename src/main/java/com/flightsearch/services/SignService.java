@@ -9,7 +9,6 @@ import com.flightsearch.repositories.FileRepository;
 import com.flightsearch.repositories.SignRepository;
 import com.flightsearch.schemas.document.SignRead;
 import com.flightsearch.services.mapping.SignMapper;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -67,6 +66,7 @@ public class SignService {
                 () -> new NotFoundException(id, "Sign")
         );
         sign.setSignStatus(signStatus);
+        sign = signRepository.save(sign);
         signMapper.mapEntityToSignRead(sign);
     }
 

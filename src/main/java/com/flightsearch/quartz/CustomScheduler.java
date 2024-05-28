@@ -19,10 +19,9 @@ public class CustomScheduler {
     public Scheduler scheduler() throws SchedulerException {
         this.log.info("-------Scheduler Initialization Start -----------");
 
-        // First we must get a reference to a scheduler
         SchedulerFactory sf = new StdSchedulerFactory();
         Scheduler sched = sf.getScheduler();
-
+        sched.setJobFactory(new JobFactory());
         log.info("-------Scheduler Initialization Complete -----------");
 
         return sched;

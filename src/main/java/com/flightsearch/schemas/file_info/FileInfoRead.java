@@ -1,10 +1,12 @@
 package com.flightsearch.schemas.file_info;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 @EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
 public class FileInfoRead extends FileInfoBase {
     private String id;
 }
