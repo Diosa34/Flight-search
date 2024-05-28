@@ -1,0 +1,12 @@
+rawPath,normalizedPath
+/ffff,ffff
+\/\ffff,ffff
+\\f,f
+////f,f
+//f/f/f,f/f/f
+f/f///f,f/f/f
+f\f\f///f,f/f/f/f
+f.txt/fff.txt.f,f.txt/fff.txt.f
+f/../f,f
+f/./../f,f
+f/,f

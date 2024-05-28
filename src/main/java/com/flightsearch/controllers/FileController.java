@@ -49,7 +49,7 @@ public class FileController {
         FileRepository.FileResource fileResource = fileService.loadFile(id);
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + fileResource.fileInfo.getFilename() + "\"");
+                "attachment; filename=\"" + fileResource.getFilename() + "\"");
 
         return ResponseEntity.ok()
                 .headers(headers)

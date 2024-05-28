@@ -5,6 +5,7 @@ import com.flightsearch.exceptions.NotFoundException;
 import com.flightsearch.exceptions.repositories.FileRepositoryException;
 import com.flightsearch.exceptions.repositories.FileRepositoryMethodException;
 import com.flightsearch.models.FileInfo;
+import com.flightsearch.utils.Zipper;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,10 +22,12 @@ import java.util.UUID;
 public class FileRepository {
     final private FileInfoRepository DBRepo;
     final private Path filesDir;
+    final private Path tempDir;
 
     public FileRepository(FileInfoRepository DBRepo, RepositoryProperties props) {
         this.DBRepo = DBRepo;
         filesDir = props.getFilesDir();
+        tempDir = props.getTempDir();
     }
 
     /**
@@ -226,6 +229,13 @@ public class FileRepository {
         public Resource resource;
         public FileInfo fileInfo;
         public long length;
+
+        public String getFilename() {
+            if (fileInfo == null) {
+                return Paths.get(resource.getFilename()).getFileName().toString();
+            }
+            return fileInfo.getFilename();
+        }
     }
 
     public FileResource getFileResource(UUID fileId) {
@@ -238,5 +248,27 @@ public class FileRepository {
                 fileInfo,
                 filePath.toFile().length()
         );
+    }
+
+    public FileResource getZipResource(String zipName, FileInfo... fileInfos) {
+        try {
+            createDir(tempDir);
+            Path zipTempDir = Files.createTempDirectory(tempDir, "zip");
+            Path zipFilePath = zipTempDir.resolve(zipName + ".zip");
+
+            Zipper zipper = new Zipper(zipFilePath);
+            for (FileInfo fileInfo : fileInfos) {
+                zipper.addFile(fileInfo.getFilename(), resolveFilePath(fileInfo).toFile());
+            }
+            zipper.close();
+
+            return new FileResource(
+                    new FileSystemResource(zipFilePath),
+                    null,
+                    zipFilePath.toFile().length()
+            );
+        } catch (IOException ignore) {
+            throw new FileRepositoryException("Не удалось собрать архив.", "");
+        }
     }
 }
