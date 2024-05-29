@@ -2,9 +2,9 @@ package com.flightsearch.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Builder;
 
 import java.util.UUID;
 
