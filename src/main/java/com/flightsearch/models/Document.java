@@ -36,9 +36,11 @@ public class Document {
     private String description;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
     private Timestamp creationDate = new Timestamp(System.currentTimeMillis());
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
     private Timestamp deadline = setDefaultDeadline();
 
     private Timestamp setDefaultDeadline() {
