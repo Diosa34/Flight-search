@@ -24,9 +24,9 @@ import java.util.UUID;
 
 @Repository
 public class FileRepository {
-    final private FileInfoRepository DBRepo;
-    final private Path filesDir;
-    final private Path tempDir;
+    private final FileInfoRepository DBRepo;
+    private final Path filesDir;
+    private final Path tempDir;
 
     public FileRepository(FileInfoRepository DBRepo, RepositoryProperties props) {
         this.DBRepo = DBRepo;
@@ -37,7 +37,7 @@ public class FileRepository {
     /**
      * Возвращает абсолютный путь до файла с учетом переименования.
      * Для корректонй работы необходим экземпляр FileInfo модели с id.
-     * */
+     */
     protected Path resolveFilePath(FileInfo fileInfo) {
         return filesDir
                 .resolve(fileInfo.getLocalDir())
@@ -48,9 +48,10 @@ public class FileRepository {
     /**
      * Создает все несуществующие директории в пути.
      * Подробности возникшего исключения можно узнать из объекта ошибки.
+     *
      * @throws FileRepositoryException невозможно создать директорию т.к. с требуемым именем существует файл,
-     * или некорректный путь, или недостаточно прав доступа, либо ошибка ввода/вывода.
-     * */
+     *                                 или некорректный путь, или недостаточно прав доступа, либо ошибка ввода/вывода.
+     */
     protected void createDir(Path dirPath) {
         try {
             Files.createDirectories(dirPath);
@@ -80,10 +81,11 @@ public class FileRepository {
     /**
      * Создает несуществующий файл, если файл уже существует то, возникает исключение.
      * Подробности возникшего исключения можно узнать из объекта ошибки.
+     *
      * @throws FileRepositoryException файл существует, или некорректный путь,
-     * или недостаточно прав доступа, либо ошибка ввода/вывода.
+     *                                 или недостаточно прав доступа, либо ошибка ввода/вывода.
      * @see FileRepositoryException
-     * */
+     */
     protected void createFile(Path filePath) {
         try {
             Files.createFile(filePath);
@@ -129,15 +131,16 @@ public class FileRepository {
      * Создает и сохраняет файл в памяти заданной директории, путь к файлу формируется из
      * 'директории файлов' + FileInfo.localDir + FileInfo.id.
      * Также выполняется сохранение сущности описывающий данный файл в БД.
+     *
      * @param fileInfo несохраненная сущность описывающая файл.
-     * @param content строка которую нужно записать в файл.
+     * @param content  строка которую нужно записать в файл.
      * @return сохраненная сущность
      * @throws FileRepositoryMethodException если передана сохраненная сущность описывающая файл.
-     * @throws FileRepositoryException если возникла ошибка при создании файла.
+     * @throws FileRepositoryException       если возникла ошибка при создании файла.
      * @see FileInfo
      * @see FileRepositoryMethodException
      * @see FileRepositoryException
-     * */
+     */
     @Transactional
     public FileInfo saveFile(FileInfo fileInfo, String content) {
         if (fileInfo.getId() != null) {
@@ -161,11 +164,12 @@ public class FileRepository {
      * Создает и сохраняет файл в памяти заданной директории, путь к файлу формируется из
      * 'директории файлов' + localDir + filename.
      * Также выполняется сохранение сущности описывающий данный файл в БД.
+     *
      * @param localDir путь к внутрений директории
      * @param filename нового имя файла
-     * @param content строка которую нужно записать в файл.
+     * @param content  строка которую нужно записать в файл.
      * @return сохраненная сущность
-     * */
+     */
     @Transactional
     public FileInfo saveFile(String localDir, String filename, String content) {
         if (filename.startsWith("/") || filename.startsWith("~")) {
@@ -196,15 +200,16 @@ public class FileRepository {
      * Создает и сохраняет файл в памяти заданной директории, путь к файлу формируется из
      * 'директории файлов' + FileInfo.localDir + FileInfo.id.
      * Также выполняется сохранение сущности описывающий данный файл в БД.
+     *
      * @param fileInfo несохраненная сущность описывающая файл.
-     * @param file полученный файл.
+     * @param file     полученный файл.
      * @return сохраненная сущность
      * @throws FileRepositoryMethodException если передана сохраненная сущность описывающая файл.
-     * @throws FileRepositoryException если возникла ошибка при создании файла.
+     * @throws FileRepositoryException       если возникла ошибка при создании файла.
      * @see FileInfo
      * @see FileRepositoryMethodException
      * @see FileRepositoryException
-     * */
+     */
     @Transactional
     public FileInfo saveFile(FileInfo fileInfo, MultipartFile file) {
         if (fileInfo.getId() != null) {

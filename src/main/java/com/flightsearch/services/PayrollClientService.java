@@ -13,9 +13,9 @@ public class PayrollClientService {
     /**
      * Сервис для отправки сообщений в очередь,
      * для включения необходимо использовать профиль prodMain/devMain.
-     * */
-    private JmsTemplate jmsTemplate;
-    private SecurityService securityService;
+     */
+    private final JmsTemplate jmsTemplate;
+    private final SecurityService securityService;
 
     public void createPayroll(Long id) {
         PayrollCreate schema = new PayrollCreate(id, securityService.getCurrentUser().getId());

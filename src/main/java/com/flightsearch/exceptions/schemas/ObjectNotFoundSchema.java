@@ -12,6 +12,7 @@ public class ObjectNotFoundSchema {
     private String cause;
     @Schema(example = "EntityName")
     private String entityName;
+
     public ObjectNotFoundSchema(NotFoundException exception) {
         this.setCause(exception.getEntityName() + " с идентификатором " + exception.getEntityId() + " не найден");
         this.entityName = exception.getEntityName();

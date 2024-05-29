@@ -14,8 +14,8 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Profile({"prodMain", "devMain"})
 public class JAASAuthorityGranter implements AuthorityGranter {
-
     private final UserRepository userRepository;
+
     @Override
     public Set<String> grant(Principal principal) {
         User user = userRepository

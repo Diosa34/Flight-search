@@ -19,9 +19,9 @@ import java.util.stream.Collectors;
 @Profile({"prodMain", "devMain"})
 @AllArgsConstructor
 public class FileService {
-    final private FileInfoRepository fileInfoRepository;
-    final private FileRepository fileRepository;
-    final private FileInfoMapper fileInfoMapper;
+    private final FileInfoRepository fileInfoRepository;
+    private final FileRepository fileRepository;
+    private final FileInfoMapper fileInfoMapper;
 
     public FileInfoRead saveFile(MultipartFile file, FileInfoCreate schema) {
         FileInfo fileInfo = fileInfoMapper.mapSignCreateToEntity(schema);
@@ -36,6 +36,6 @@ public class FileService {
     }
 
     public FileRepository.FileResource loadFile(UUID fileId) {
-       return fileRepository.getFileResource(fileId);
+        return fileRepository.getFileResource(fileId);
     }
 }

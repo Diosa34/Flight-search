@@ -15,7 +15,7 @@ import static org.quartz.TriggerBuilder.newTrigger;
 @Configuration
 @Profile({"prodMain", "devMain"})
 public class CustomScheduler {
-    final Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Bean
     public Scheduler scheduler() throws SchedulerException {

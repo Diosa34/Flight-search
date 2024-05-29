@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("/user")
 @Validated
 public class UserController {
-    final UserService userService;
+    private final UserService userService;
 
     @Operation(summary = "Регистрирует пользователя")
     @ResponseStatus(HttpStatus.CREATED)

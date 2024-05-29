@@ -14,8 +14,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class Zipper {
-    final private ZipOutputStream zipOut;
-    final private List<String> filesInZip;
+    private final ZipOutputStream zipOut;
+    private final List<String> filesInZip;
 
     public Zipper(Path zipPath) throws IOException {
         zipOut = new ZipOutputStream(Files.newOutputStream(zipPath));

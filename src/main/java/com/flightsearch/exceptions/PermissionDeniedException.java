@@ -4,8 +4,8 @@ import lombok.Getter;
 
 @Getter
 public class PermissionDeniedException extends Error {
-    final private String requiredRole;
-    final private String message;
+    private final String requiredRole;
+    private final String message;
 
     public PermissionDeniedException(String requiredRole) {
         this.message = "Отказано в доступе";

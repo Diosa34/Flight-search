@@ -14,10 +14,10 @@ import lombok.Getter;
  * </ul>
  * Более подробное описание причины возникновения можно получить вызвав метод getMessage().
  * Для получения полного необходимо вызвать метод getFullPath().
- * */
+ */
 @AllArgsConstructor
 @Getter
 public class FileRepositoryException extends Error {
-    final private String message;
-    final private String fullPath;
+    private final String message;
+    private final String fullPath;
 }

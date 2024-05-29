@@ -21,10 +21,10 @@ import java.util.stream.Collectors;
 @Profile({"prodMain", "devMain"})
 @RequiredArgsConstructor
 public class SignService {
-    final private SignRepository signRepository;
-    final private SignFileGeneratorService signFileGeneratorService;
-    final private SignMapper signMapper;
-    final private SecurityService securityService;
+    private final SignRepository signRepository;
+    private final SignFileGeneratorService signFileGeneratorService;
+    private final SignMapper signMapper;
+    private final SecurityService securityService;
 
     public SignRead confirm(Long id) {
         Sign sign = signRepository.findById(id).orElseThrow(
@@ -66,7 +66,7 @@ public class SignService {
 
     public Set<SignRead> getSignsByCounterpartId(Long counterpartId) {
         return signRepository.findAllByCounterpartId(counterpartId).orElseThrow(
-                () -> new NotFoundException(counterpartId, "Sign"))
+                        () -> new NotFoundException(counterpartId, "Sign"))
                 .stream()
                 .map(signMapper::mapEntityToSignRead)
                 .collect(Collectors.toSet());

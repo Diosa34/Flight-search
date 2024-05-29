@@ -15,13 +15,13 @@ import java.util.Objects;
 
 @Repository
 public class XMLUserRepository {
-    final private XStream xstream;
-    final private Path xmlPath;
+    private final XStream xstream;
+    private final Path xmlPath;
 
     public XMLUserRepository(RepositoryProperties repositoryProperties) {
         xmlPath = repositoryProperties.getUserXmlFilename();
         xstream = new XStream();
-        xstream.allowTypes(new Class[] {User.class});
+        xstream.allowTypes(new Class[]{User.class});
         xstream.alias("user", User.class);
     }
 
@@ -33,13 +33,13 @@ public class XMLUserRepository {
         }
     }
 
-    public void save(User newUser){
+    public void save(User newUser) {
         List<User> users = getAll();
         users.add(newUser);
         saveAll(users);
     }
 
-    public void saveAll(List<User> users){
+    public void saveAll(List<User> users) {
         try {
             if (!Files.exists(xmlPath)) {
                 Files.createDirectories(xmlPath.getParent());

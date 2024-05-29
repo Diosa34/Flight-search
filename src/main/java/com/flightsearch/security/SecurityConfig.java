@@ -42,7 +42,7 @@ public class SecurityConfig {
                         .clearAuthentication(true)
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .permitAll()
-        );
+                );
         return http.build();
     }
 
@@ -50,5 +50,4 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }

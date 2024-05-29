@@ -12,8 +12,8 @@ public class JobFactory extends SpringBeanJobFactory implements ApplicationConte
 
     @Override
     public void setApplicationContext(ApplicationContext context) {
-            beanFactory = context.getAutowireCapableBeanFactory();
-        }
+        beanFactory = context.getAutowireCapableBeanFactory();
+    }
 
     @Override
     protected Object createJobInstance(final TriggerFiredBundle bundle) throws Exception {

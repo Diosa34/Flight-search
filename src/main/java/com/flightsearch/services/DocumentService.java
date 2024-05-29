@@ -26,11 +26,11 @@ import java.util.stream.Collectors;
 @Profile({"prodMain", "devMain"})
 @RequiredArgsConstructor
 public class DocumentService {
-    final DocumentRepository docRepository;
-    final SignRepository signRepository;
-    final FileRepository fileRepository;
-    final DocumentMapper docMapper;
-    final SecurityService securityService;
+    private final DocumentRepository docRepository;
+    private final SignRepository signRepository;
+    private final FileRepository fileRepository;
+    private final DocumentMapper docMapper;
+    private final SecurityService securityService;
 
     public Set<DocumentRead> getAll() {
         return docRepository.findAll().stream()

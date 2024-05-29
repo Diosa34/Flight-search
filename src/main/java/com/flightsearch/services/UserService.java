@@ -18,9 +18,9 @@ import java.util.stream.Collectors;
 @Profile({"prodMain", "devMain"})
 @RequiredArgsConstructor
 public class UserService {
-    final UserRepository userRepository;
-    final UserMapper userMapper;
-    final XMLUserRepository xmlUserRepository;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
+    private final XMLUserRepository xmlUserRepository;
 
     public UserRead register(UserRegister schema) {
         User newUser = userMapper.mapUserRegistrationToEntity(schema);

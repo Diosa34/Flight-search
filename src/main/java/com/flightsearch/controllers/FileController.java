@@ -28,7 +28,7 @@ import java.util.UUID;
 @Validated
 @AllArgsConstructor
 public class FileController {
-    final private FileService fileService;
+    private final FileService fileService;
 
     @Operation(summary = "Загрузить файл")
     @PostMapping(value = "/upload/", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

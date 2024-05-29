@@ -17,7 +17,6 @@ import java.util.Map;
 import java.util.Optional;
 
 public class JAASLoginModule implements LoginModule {
-
     private PasswordEncoder passwordEncoder;
     private String login;
     private boolean loginSucceeded = false;
@@ -34,11 +33,11 @@ public class JAASLoginModule implements LoginModule {
     }
 
     @Override
-    public boolean login()  {
+    public boolean login() {
         var nameCallback = new NameCallback("login: ");
         var passwordCallback = new PasswordCallback("password: ", false);
         try {
-            callbackHandler.handle(new Callback[] {nameCallback, passwordCallback});
+            callbackHandler.handle(new Callback[]{nameCallback, passwordCallback});
         } catch (IOException | UnsupportedCallbackException e) {
             throw new RuntimeException(e);
         }
@@ -55,8 +54,8 @@ public class JAASLoginModule implements LoginModule {
 
     @Override
     public boolean commit() {
-        if(!loginSucceeded) return false;
-        if(login == null) throw new NotFoundException("null", "User");
+        if (!loginSucceeded) return false;
+        if (login == null) throw new NotFoundException("null", "User");
         Principal principal = (UserPrincipal) () -> login;
         subject.getPrincipals().add(principal);
         return true;

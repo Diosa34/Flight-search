@@ -4,13 +4,15 @@ import com.flightsearch.models.Document;
 import com.flightsearch.models.SignStatus;
 import com.flightsearch.schemas.document.SignRead;
 import com.flightsearch.schemas.user.UserRead;
-import com.flightsearch.services.*;
+import com.flightsearch.services.MailService;
+import com.flightsearch.services.SignService;
+import com.flightsearch.services.UserService;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import org.slf4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
@@ -39,10 +41,10 @@ public class CheckSignDeadlineJob implements Job {
 
         List<UserRead> allUsers = userService.getAll();
 
-        for (UserRead currentUser: allUsers) {
+        for (UserRead currentUser : allUsers) {
             Set<SignRead> userSigns = signService.getSignsByCounterpartId(currentUser.getId());
 
-            for (SignRead sign: userSigns) {
+            for (SignRead sign : userSigns) {
                 SignStatus signStatus = sign.getSignStatus();
                 Document doc = sign.getDocument();
 

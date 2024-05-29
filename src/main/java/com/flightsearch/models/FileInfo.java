@@ -27,8 +27,9 @@ public class FileInfo {
     /**
      * Отделяет расширение файла и возвращает его, если в названии файла нет ".",
      * возвращает пустую строку. Расширение файла возвращается с точкой.
+     *
      * @return расширение файла
-     * */
+     */
     public String getFileExtension() {
         if (filename.contains(".")) {
             return filename.substring(filename.lastIndexOf("."));
@@ -39,8 +40,9 @@ public class FileInfo {
 
     /**
      * Формирует путь относительно установленной директории для файлов на сервере.
+     *
      * @return относительный путь
-     * */
+     */
     public String getLocalPath() {
         return localDir + '/' + filename;
     }

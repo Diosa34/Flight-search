@@ -20,12 +20,12 @@ public class PayrollServerService {
     /**
      * Сервис обработки сообщений из очереди,
      * для включения необходимо использовать профиль devPayroll/prodPayroll.
-     * */
-    private UserRepository userRepository;
-    private PayrollFileGeneratorService payrollFileGeneratorService;
-    private SignFileGeneratorService signFileGeneratorService;
-    private DocumentRepository documentRepository;
-    private SignRepository signRepository;
+     */
+    private final UserRepository userRepository;
+    private final PayrollFileGeneratorService payrollFileGeneratorService;
+    private final SignFileGeneratorService signFileGeneratorService;
+    private final DocumentRepository documentRepository;
+    private final SignRepository signRepository;
 
     private void createConfirmedSign(User user, Document document) {
         Sign sign = new Sign();

@@ -5,7 +5,7 @@ import lombok.Getter;
 
 /**
  * Класс ошибки, возникающей при отсутствии записи в базе данных.
- * */
+ */
 @AllArgsConstructor
 @Getter
 public class NotFoundException extends Error {

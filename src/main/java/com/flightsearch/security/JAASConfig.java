@@ -24,7 +24,7 @@ public class JAASConfig {
         AppConfigurationEntry configEntry = new AppConfigurationEntry(JAASLoginModule.class.getName(),
                 AppConfigurationEntry.LoginModuleControlFlag.REQUIRED,
                 Map.of("userRepository", userRepository));
-        var configurationEntries = new AppConfigurationEntry[] {configEntry};
+        var configurationEntries = new AppConfigurationEntry[]{configEntry};
         return new InMemoryConfiguration(Map.of("SPRINGSECURITY", configurationEntries));
     }
 
@@ -32,7 +32,7 @@ public class JAASConfig {
     public AbstractJaasAuthenticationProvider jaasAuthenticationProvider(javax.security.auth.login.Configuration configuration) {
         var provider = new DefaultJaasAuthenticationProvider();
         provider.setConfiguration(configuration);
-        provider.setAuthorityGranters(new AuthorityGranter[] {new JAASAuthorityGranter(userRepository)});
+        provider.setAuthorityGranters(new AuthorityGranter[]{new JAASAuthorityGranter(userRepository)});
         return provider;
     }
 }
