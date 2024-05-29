@@ -14,6 +14,17 @@ spring:
     packages:
       trusted: com.flightsearch.schemas.jms.PayrollCreate
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: doc.management24@gmail.com
+    password: ${MAIL_PASSWORD}
+    protocol: smtp
+    properties.mail.smtp:
+      auth: true
+      starttls.enable: true
+      ssl.trust: smtp.gmail.com
+
 springdoc:
   swagger-ui:
     disable-swagger-default-url: true

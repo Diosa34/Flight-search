@@ -24,3 +24,9 @@ spring:
           threadPool:
             class: org.quartz.simpl.SimpleThreadPool
             threadCount: 5
+
+application:
+  mail:
+    log: true
+    disable: ${MAIL_DISABLE:false}
+    redirect-to: ${MAIL_REDIRECT:""}
