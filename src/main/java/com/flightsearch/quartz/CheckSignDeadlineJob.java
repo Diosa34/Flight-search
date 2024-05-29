@@ -59,6 +59,8 @@ public class CheckSignDeadlineJob implements Job {
                 } else if (delta < 3 && signStatus == SignStatus.ON_HOLD) {
                     signService.setStatus(sign.getId(), SignStatus.THREE_DAYS_LEFT);
                     mailService.sendSimpleEmail(String.format("До окончания срока подписания документа «%s» осталось менее 3 дней.", doc.getTitle()));
+                } else if (signStatus == SignStatus.MISSED_DEADLINE) {
+                    mailService.sendSimpleEmail(String.format("Cрок подписания документа «%s» истёк.", doc.getTitle()));
                 }
             }
         }
