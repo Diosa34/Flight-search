@@ -9,5 +9,21 @@ spring:
   sql:
     init:
       mode: always
+
+  quartz:
+    job-store-type: memory
+    startup-delay: 5
+    overwrite-existing-jobs: true
+    properties:
+      org:
+        quartz:
+          jobStore:
+            class: org.quartz.simpl.RAMJobStore
+          scheduler:
+            instanceId: AUTO
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 5
+
 server:
   port: ${PORT:14880}

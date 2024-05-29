@@ -8,6 +8,7 @@ import com.flightsearch.services.*;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.slf4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Set;
 
 @Component
+@Profile({"prodMain", "devMain"})
 public class CheckSignDeadlineJob implements Job {
 
     Logger logger = LoggerFactory.getLogger(getClass());
