@@ -4,13 +4,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
+import java.sql.Timestamp;
 import java.util.UUID;
 
-@Getter
-@Setter
+@Data
 public class DocumentBase {
     @Schema(example = "Результаты проверки.")
     @NotBlank
@@ -24,4 +23,6 @@ public class DocumentBase {
 
     @NotNull
     private UUID fileId;
+
+    private Timestamp deadline;
 }

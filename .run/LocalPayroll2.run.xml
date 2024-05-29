@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="LocalPayroll2" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <option name="ACTIVE_PROFILES" value="devPayroll" />
+    <envs>
+      <env name="DB_PWD" value="test" />
+      <env name="DB_URL" value="jdbc:postgresql://localhost:5432/test" />
+      <env name="DB_USER" value="test" />
+      <env name="PORT" value="8082" />
+    </envs>
+    <module name="FlightSearch" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.flightsearch.FlightSearchApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

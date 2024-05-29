@@ -2,6 +2,7 @@
   <configuration default="false" name="DocumentManagement" type="CompoundRunConfigurationType">
     <toRun name="LocalMain" type="SpringBootApplicationConfigurationType" />
     <toRun name="LocalPayroll" type="SpringBootApplicationConfigurationType" />
+    <toRun name="LocalPayroll2" type="SpringBootApplicationConfigurationType" />
     <method v="2" />
   </configuration>
 </component>

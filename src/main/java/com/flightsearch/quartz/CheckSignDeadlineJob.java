@@ -1,8 +1,9 @@
 package com.flightsearch.quartz;
 
 import com.flightsearch.models.Document;
+import com.flightsearch.models.Sign;
 import com.flightsearch.models.SignStatus;
-import com.flightsearch.schemas.document.SignRead;
+import com.flightsearch.repositories.SignRepository;
 import com.flightsearch.schemas.user.UserRead;
 import com.flightsearch.services.MailService;
 import com.flightsearch.services.SignService;
@@ -17,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Set;
 
 @Component
 @Profile({"prodMain", "devMain"})
@@ -27,12 +27,14 @@ public class CheckSignDeadlineJob implements Job {
 
     private final UserService userService;
     private final SignService signService;
+    private final SignRepository signRepository;
     private final MailService mailService;
 
-    public CheckSignDeadlineJob(UserService userService, SignService signService, MailService mailService) {
+    public CheckSignDeadlineJob(UserService userService, SignService signService, MailService mailService, SignRepository signRepository) {
         this.userService = userService;
         this.signService = signService;
         this.mailService = mailService;
+        this.signRepository = signRepository;
     }
 
     @Transactional
@@ -42,9 +44,9 @@ public class CheckSignDeadlineJob implements Job {
         List<UserRead> allUsers = userService.getAll();
 
         for (UserRead currentUser : allUsers) {
-            Set<SignRead> userSigns = signService.getSignsByCounterpartId(currentUser.getId());
+            List<Sign> userSigns = signRepository.findAllByCounterpartId(currentUser.getId());
 
-            for (SignRead sign : userSigns) {
+            for (Sign sign : userSigns) {
                 SignStatus signStatus = sign.getSignStatus();
                 Document doc = sign.getDocument();
 

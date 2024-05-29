@@ -1,7 +1,10 @@
 package com.flightsearch.models;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
@@ -12,8 +15,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "person")
-@Getter
-@Setter
+@Data
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor

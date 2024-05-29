@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface SignRepository extends JpaRepository<Sign, Long> {
     Optional<Sign> findById(Long id);
 
-    Optional<List<Sign>> findAllByCounterpartId(Long id);
+    List<Sign> findAllByCounterpartId(Long id);
 }

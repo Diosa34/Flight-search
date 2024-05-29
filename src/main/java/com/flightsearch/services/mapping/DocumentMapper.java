@@ -29,6 +29,7 @@ public class DocumentMapper {
                         () -> new NotFoundException(schema.getFileId(), "FileInfo")
                 )
         );
+        entity.setDeadline(schema.getDeadline());
         return entity;
     }
 

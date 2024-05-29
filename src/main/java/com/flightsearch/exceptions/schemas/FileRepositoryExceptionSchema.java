@@ -2,11 +2,9 @@ package com.flightsearch.exceptions.schemas;
 
 import com.flightsearch.exceptions.repositories.FileRepositoryException;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class FileRepositoryExceptionSchema {
     @Schema(example = "Не удалось сохранить файл на сервере")
     private String cause;

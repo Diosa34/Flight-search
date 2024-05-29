@@ -2,11 +2,9 @@ package com.flightsearch.exceptions.schemas;
 
 import com.flightsearch.exceptions.NotFoundException;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class ObjectNotFoundSchema {
     @Schema(example = "<EntityName> с идентификатором <EntityID> не найден")
     private String cause;

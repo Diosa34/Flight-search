@@ -9,13 +9,12 @@ import com.flightsearch.repositories.SignRepository;
 import com.flightsearch.schemas.document.SignRead;
 import com.flightsearch.services.generators.SignFileGeneratorService;
 import com.flightsearch.services.mapping.SignMapper;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @Profile({"prodMain", "devMain"})
@@ -26,6 +25,7 @@ public class SignService {
     private final SignMapper signMapper;
     private final SecurityService securityService;
 
+    @Transactional
     public SignRead confirm(Long id) {
         Sign sign = signRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(id, "Sign")
@@ -60,16 +60,7 @@ public class SignService {
                 () -> new NotFoundException(id, "Sign")
         );
         sign.setSignStatus(signStatus);
-        sign = signRepository.save(sign);
-        signMapper.mapEntityToSignRead(sign);
-    }
-
-    public Set<SignRead> getSignsByCounterpartId(Long counterpartId) {
-        return signRepository.findAllByCounterpartId(counterpartId).orElseThrow(
-                        () -> new NotFoundException(counterpartId, "Sign"))
-                .stream()
-                .map(signMapper::mapEntityToSignRead)
-                .collect(Collectors.toSet());
+        signRepository.save(sign);
     }
 
     public void delete(Long id) {
