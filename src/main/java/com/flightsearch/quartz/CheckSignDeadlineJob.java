@@ -1,5 +1,6 @@
 package com.flightsearch.quartz;
 
+import com.flightsearch.config.properties.SchedulerProperties;
 import com.flightsearch.models.Document;
 import com.flightsearch.models.Sign;
 import com.flightsearch.models.SignStatus;
@@ -23,6 +24,7 @@ public class CheckSignDeadlineJob implements Job {
     private final SignService signService;
     private final SignRepository signRepository;
     private final MailService mailService;
+    private final SchedulerProperties schedulerProperties;
 
     @Transactional
     public void execute(JobExecutionContext context) {
@@ -40,11 +42,17 @@ public class CheckSignDeadlineJob implements Job {
                         "Истёк срок подписания",
                         String.format("Cрок подписания документа «%s» истёк.", doc.getTitle())
                 );
-            } else if (timeDelta.days() <= 3) {
+            } else if (timeDelta.days() <= schedulerProperties.getSecondNotification()) {
                 mailService.sendSimpleEmail(
                         sign.getCounterpart(),
                         "Истекает срок подписания",
-                        String.format("До окончания срока подписания документа «%s» осталось менее 3 дней.", doc.getTitle())
+                        String.format("Времени остается совсем немного. До окончания срока подписания документа «%s» осталось менее %s дней.", doc.getTitle(), schedulerProperties.getSecondNotification())
+                );
+            } else if (timeDelta.days() <= schedulerProperties.getFirstNotification()) {
+                mailService.sendSimpleEmail(
+                        sign.getCounterpart(),
+                        "Истекает срок подписания",
+                        String.format("До окончания срока подписания документа «%s» осталось менее %s дней.", doc.getTitle(), schedulerProperties.getFirstNotification())
                 );
             }
         }
