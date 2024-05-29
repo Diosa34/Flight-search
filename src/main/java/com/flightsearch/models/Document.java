@@ -1,15 +1,15 @@
 package com.flightsearch.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Document {
@@ -36,4 +36,16 @@ public class Document {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Timestamp creationDate = new Timestamp(System.currentTimeMillis());
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Timestamp deadline = setDefaultDeadline();
+
+    private Timestamp setDefaultDeadline() {
+        Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentTimestamp);
+        calendar.add(Calendar.SECOND, 13);
+
+        return new Timestamp(calendar.getTime().getTime());
+    }
 }

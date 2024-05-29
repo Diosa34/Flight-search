@@ -78,6 +78,7 @@ public class DocumentMapper {
         schema.setDescription(entity.getDescription());
         schema.setFileId(entity.getFile().getId());
         schema.setCreationDate(entity.getCreationDate());
+        schema.setDeadline(entity.getDeadline());
         schema.setIsSigned(entity.getSigns().stream()
                 .map(Sign::getSignStatus)
                 .map(signStatus -> signStatus == SignStatus.CONFIRMED)

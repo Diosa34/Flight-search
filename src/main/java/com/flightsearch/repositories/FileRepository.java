@@ -8,7 +8,8 @@ import com.flightsearch.models.FileInfo;
 import com.flightsearch.utils.Zipper;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
@@ -226,7 +227,8 @@ public class FileRepository {
         return fileInfo;
     }
 
-    @Data
+    @Getter
+    @Setter
     @AllArgsConstructor
     public static class FileResource {
         public Resource resource;
