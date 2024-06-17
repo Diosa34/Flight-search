@@ -3,7 +3,6 @@ package com.flightsearch.controllers;
 import com.flightsearch.repositories.FileRepository;
 import com.flightsearch.schemas.document.*;
 import com.flightsearch.services.DocumentService;
-import com.flightsearch.services.PayrollClientService;
 import com.flightsearch.services.SignService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -32,7 +31,6 @@ import java.util.Set;
 public class DocumentController {
     private final DocumentService docService;
     private final SignService signService;
-    private final PayrollClientService payrollService;
 
     @Operation(
             summary = "Создать документ",
@@ -130,15 +128,5 @@ public class DocumentController {
     @DeleteMapping("/sign/{signId}")
     public void deleteSign(@PathVariable Long signId) {
         signService.delete(signId);
-    }
-
-    @Operation(
-            summary = "Создает платежные поручения"
-    )
-    @PostMapping("payroll")
-    public void createPayroll(@RequestBody @Valid Payrolls schema) {
-        for (Long id : schema.getCounterpartIds()) {
-            payrollService.createPayroll(id);
-        }
     }
 }
