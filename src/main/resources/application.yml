@@ -25,9 +25,11 @@ spring:
       starttls.enable: true
       ssl.trust: smtp.gmail.com
 
-springdoc:
-  swagger-ui:
-    disable-swagger-default-url: true
-    path: /docs
-  default-produces-media-type: "application/json"
-  default-consumes-media-type: "application/json"
+camunda:
+  bpm:
+    admin-user:
+      id: admin
+      password: admin
+      first-name: admin
+      last-name: admin
+      email: admin@admin.com

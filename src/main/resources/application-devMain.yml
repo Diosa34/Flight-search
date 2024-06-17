@@ -30,3 +30,6 @@ application:
     log: true
     disable: ${MAIL_DISABLE:false}
     redirect-to: ${MAIL_REDIRECT:""}
+
+
+

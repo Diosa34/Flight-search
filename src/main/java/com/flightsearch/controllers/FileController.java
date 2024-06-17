@@ -4,10 +4,7 @@ import com.flightsearch.repositories.FileRepository;
 import com.flightsearch.schemas.file_info.FileInfoCreate;
 import com.flightsearch.schemas.file_info.FileInfoRead;
 import com.flightsearch.services.FileService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -21,7 +18,6 @@ import java.util.List;
 import java.util.UUID;
 
 
-@Tag(name = "Файлы")
 @RestController
 @Profile({"prodMain", "devMain"})
 @RequestMapping("/files")
@@ -30,20 +26,17 @@ import java.util.UUID;
 public class FileController {
     private final FileService fileService;
 
-    @Operation(summary = "Загрузить файл")
     @PostMapping(value = "/upload/", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public FileInfoRead saveFile(
-            @RequestParam("file") MultipartFile file, @ParameterObject FileInfoCreate schema) {
+            @RequestParam("file") MultipartFile file, FileInfoCreate schema) {
         return fileService.saveFile(file, schema);
     }
 
-    @Operation(summary = "Список файлов")
     @GetMapping
     public List<FileInfoRead> getFiles() {
         return fileService.getFileInfos();
     }
 
-    @Operation
     @GetMapping("/download/{id}")
     public ResponseEntity<Resource> getFile(@PathVariable UUID id) {
         FileRepository.FileResource fileResource = fileService.loadFile(id);
