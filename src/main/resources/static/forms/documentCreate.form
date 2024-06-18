@@ -1,7 +1,7 @@
 {
   "components": [
     {
-      "text": "# Добавление нвого документа\nВведите информацию о новом документе",
+      "text": "# Добавление нового документа\nВведите информацию о новом документе",
       "label": "Text view",
       "type": "text",
       "layout": {
@@ -63,11 +63,11 @@
         "columns": null
       },
       "id": "Field_1fbloeb",
-      "key": "deadline",
+      "key": "deadlineDate",
       "validate": {
         "required": false
       },
-      "disallowPassedDates": true
+      "disallowPassedDates": false
     },
     {
       "label": "Текст файла",

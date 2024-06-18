@@ -1,5 +1,6 @@
 package com.flightsearch.services.generators;
 
+import com.flightsearch.models.FileInfo;
 import com.flightsearch.repositories.FileRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -9,16 +10,15 @@ import org.springframework.stereotype.Service;
 public class PayrollFileGeneratorService {
     private final FileRepository fileRepository;
 
-    // todo: переделать
-//    private String generatePayrollFileContent(User beneficiary) {
-//        return "Платежная ведомость на имя " + beneficiary.getFullName();
-//    }
+    private String generatePayrollFileContent(String beneficiaryId) {
+        return "Платежная ведомость на имя " + beneficiaryId;
+    }
 
-//    public FileInfo generatePayrollFile(User beneficiary) {
-//        return fileRepository.saveFile(
-//                "payroll",
-//                "payroll_for_" + beneficiary.getId() + ".txt",
-//                generatePayrollFileContent(beneficiary)
-//        );
-//    }
+    public FileInfo generatePayrollFile(String beneficiaryId) {
+        return fileRepository.saveFile(
+                "payroll",
+                "payroll_for_" + beneficiaryId + ".txt",
+                generatePayrollFileContent(beneficiaryId)
+        );
+    }
 }

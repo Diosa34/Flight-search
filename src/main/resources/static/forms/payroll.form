@@ -1,0 +1,27 @@
+{
+  "components": [
+    {
+      "label": "Пользователи которые получат платежные поручений",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_13r8kb8",
+        "columns": null
+      },
+      "id": "Field_11oxekq",
+      "key": "recipientIds",
+      "description": "Введите id пользователей через запятую",
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "type": "default",
+  "id": "payroll",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.24.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.21.0",
+  "schemaVersion": 16
+}

@@ -13,7 +13,9 @@ import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,6 +34,7 @@ public class SaveDocumentDelegate implements JavaDelegate {
         Document newDoc = mapDocumentFormToEntity(delegateExecution);
         docRepository.save(newDoc);
         List<Sign> signs = signRepository.saveAll(newDoc.getSigns());
+        delegateExecution.setVariable("ownerId", getCurrentUser(delegateExecution));
         delegateExecution.setVariable("documentId", newDoc.getId());
         delegateExecution.setVariable(
                 "signs",
@@ -71,8 +74,10 @@ public class SaveDocumentDelegate implements JavaDelegate {
         newDoc.setFile(getDocumentFile(delegateExecution));
         newDoc.setTitle((String) delegateExecution.getVariable("title"));
         newDoc.setDescription((String) delegateExecution.getVariable("description"));
-        // todo: deadline
-//        newDoc.setDeadline();
+        Date deadline = (Date) delegateExecution.getVariable("deadlineDate");
+        if (deadline != null) {
+            newDoc.setDeadline(new Timestamp(deadline.getTime()));
+        }
         return newDoc;
     }
 }

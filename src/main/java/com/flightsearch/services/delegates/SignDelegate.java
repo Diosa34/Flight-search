@@ -6,19 +6,18 @@ import com.flightsearch.models.SignStatus;
 import com.flightsearch.repositories.SignRepository;
 import com.flightsearch.schemas.SignSchema;
 import com.flightsearch.services.generators.SignFileGeneratorService;
+import lombok.AllArgsConstructor;
 import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
 
 @Component
+@AllArgsConstructor
 public class SignDelegate implements JavaDelegate {
-    @Autowired
     SignRepository signRepository;
-    @Autowired
     SignFileGeneratorService signFileGeneratorService;
 
     @Override
