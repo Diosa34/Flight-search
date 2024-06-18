@@ -9,8 +9,6 @@ import org.camunda.bpm.client.task.ExternalTask;
 import org.camunda.bpm.client.task.ExternalTaskService;
 import org.springframework.stereotype.Service;
 
-import java.awt.*;
-import java.net.URI;
 import java.util.Map;
 import java.util.logging.Logger;
 
