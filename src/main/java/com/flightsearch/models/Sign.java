@@ -16,10 +16,8 @@ public class Sign {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    @ManyToOne
-    @JoinColumn(name = "counterpart_id", nullable = false)
-    private User counterpart;
+    @Column(nullable = false)
+    private String userId;
 
     @ManyToOne
     @JoinColumn(name = "document_id", nullable = false)

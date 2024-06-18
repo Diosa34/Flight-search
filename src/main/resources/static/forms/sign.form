@@ -1,0 +1,61 @@
+{
+  "components": [
+    {
+      "text": "# Текст документа",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_1mxxmgf",
+        "columns": null
+      },
+      "id": "Field_03iegss"
+    },
+    {
+      "label": "Separator",
+      "type": "separator",
+      "layout": {
+        "row": "Row_1fg3s43",
+        "columns": null
+      },
+      "id": "Field_1h3d6uy"
+    },
+    {
+      "text": "{{ fileText }}",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_08mawql",
+        "columns": null
+      },
+      "id": "Field_11ehlmf"
+    },
+    {
+      "label": "Separator",
+      "type": "separator",
+      "layout": {
+        "row": "Row_1iui6uj",
+        "columns": null
+      },
+      "id": "Field_1ik8jbc"
+    },
+    {
+      "label": "Подписать",
+      "type": "checkbox",
+      "layout": {
+        "row": "Row_0yjxl8v",
+        "columns": null
+      },
+      "id": "Field_0yk5hpg",
+      "key": "answer"
+    }
+  ],
+  "type": "default",
+  "id": "Form_02j3czo",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.24.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.21.0",
+  "schemaVersion": 16
+}

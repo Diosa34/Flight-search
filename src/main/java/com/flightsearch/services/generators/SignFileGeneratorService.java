@@ -15,14 +15,14 @@ public class SignFileGeneratorService {
     private String generateSignFileContent(Sign sign, Document doc) {
         return String.format("Документ %s подписан пользоваетелем %s",
                 doc.getTitle(),
-                sign.getCounterpart().getFullName()
+                sign.getUserId()
         );
     }
 
     public FileInfo generateSignFile(Sign sign, Document doc) {
         return fileRepository.saveFile(
                 "signs",
-                "sign-" + sign.getCounterpart().getId() + ".txt",
+                "sign-" + sign.getUserId() + ".txt",
                 generateSignFileContent(sign, doc)
         );
     }

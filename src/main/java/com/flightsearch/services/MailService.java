@@ -1,7 +1,6 @@
 package com.flightsearch.services;
 
 import com.flightsearch.config.properties.MailProperties;
-import com.flightsearch.models.User;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
@@ -17,25 +16,25 @@ public class MailService {
     private final JavaMailSender emailSender;
     private final MailProperties mailProperties;
 
-    public String getAddress(User user) {
+    public String getAddress(String email) {
         if (mailProperties.getRedirectTo() != null && !mailProperties.getRedirectTo().isBlank()) {
             return mailProperties.getRedirectTo();
         } else {
-            return user.getEmail();
+            return email;
         }
     }
 
-    public void sendSimpleEmail(User user, String title, String message) {
+    public void sendSimpleEmail(String to, String title, String message) {
         if (!mailProperties.getDisable()) {
             SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
             simpleMailMessage.setFrom("doc.management24@gmail.com");
-            simpleMailMessage.setTo(getAddress(user));
+            simpleMailMessage.setTo(getAddress(to));
             simpleMailMessage.setSubject(title);
             simpleMailMessage.setText(message);
             emailSender.send(simpleMailMessage);
         }
         if (mailProperties.getLog()) {
-            log.info("Сформировано письмо: \n\tTo: {}\n\tSubject: {}\n\tBody: {}", getAddress(user), title, message);
+            log.info("Сформировано письмо: \n\tTo: {}\n\tSubject: {}\n\tBody: {}", getAddress(to), title, message);
         }
     }
 }

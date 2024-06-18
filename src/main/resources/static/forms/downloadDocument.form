@@ -1,0 +1,23 @@
+{
+  "components": [
+    {
+      "content": "<a href=\"/document/download/{{ documentId }}\" target=\"_blank\">Скачать подписанный документ</a>",
+      "label": "HTML view",
+      "type": "html",
+      "layout": {
+        "row": "Row_0my923q",
+        "columns": null
+      },
+      "id": "Field_17b7mtj"
+    }
+  ],
+  "type": "default",
+  "id": "Form_1lks7tz",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.5.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.24.0"
+  },
+  "schemaVersion": 16
+}

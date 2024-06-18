@@ -18,9 +18,8 @@ public class Document {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "owner_id", nullable = false)
-    private User owner;
+    @Column(nullable = false)
+    private String ownerId;
 
     @OneToMany(mappedBy = "document", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Sign> signs;

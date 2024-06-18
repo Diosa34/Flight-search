@@ -44,19 +44,19 @@
         <dependency>
             <groupId>org.camunda.bpm.springboot</groupId>
             <artifactId>camunda-bpm-spring-boot-starter</artifactId>
-            <version>7.20.0</version>
+            <version>7.21.0</version>
         </dependency>
 
         <dependency>
             <groupId>org.camunda.bpm.springboot</groupId>
             <artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
-            <version>7.20.0</version>
+            <version>7.21.0</version>
         </dependency>
 
         <dependency>
             <groupId>org.camunda.bpm.springboot</groupId>
             <artifactId>camunda-bpm-spring-boot-starter-rest</artifactId>
-            <version>7.20.0</version>
+            <version>7.21.0</version>
         </dependency>
 
         <dependency>
@@ -71,12 +71,14 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
+        <!-- todo: Убрать -->
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
             <version>1.4.20</version>
         </dependency>
 
+        <!-- todo: Убрать -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jta-bitronix</artifactId>

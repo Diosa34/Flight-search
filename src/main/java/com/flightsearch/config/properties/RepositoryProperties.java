@@ -24,8 +24,6 @@ public class RepositoryProperties {
     private String baseDir = System.getProperty("user.dir") + "/application-repositories";
     private String tempDir = "temp";
     private String filesDir = "files";
-    private String xmlDir = "xml";
-    private String userXmlFilename = "users.xml";
 
     public Path getBaseDir() {
         return Paths.get(baseDir).toAbsolutePath().normalize();
@@ -37,13 +35,5 @@ public class RepositoryProperties {
 
     public Path getFilesDir() {
         return getBaseDir().resolve(filesDir).normalize();
-    }
-
-    public Path getXmlDir() {
-        return getBaseDir().resolve(xmlDir).normalize();
-    }
-
-    public Path getUserXmlFilename() {
-        return getXmlDir().resolve(userXmlFilename).normalize();
     }
 }

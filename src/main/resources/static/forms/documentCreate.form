@@ -1,0 +1,95 @@
+{
+  "components": [
+    {
+      "text": "# Добавление нвого документа\nВведите информацию о новом документе",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_1nc0bjo",
+        "columns": null
+      },
+      "id": "Field_0lzybrl"
+    },
+    {
+      "label": "Тема",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0woa5i3",
+        "columns": null
+      },
+      "id": "Field_0jk2odc",
+      "key": "title",
+      "validate": {
+        "required": true,
+        "minLength": 3,
+        "maxLength": 50
+      }
+    },
+    {
+      "label": "Описание",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_1ekyfv0",
+        "columns": null
+      },
+      "id": "Field_09qn69b",
+      "key": "description",
+      "validate": {
+        "required": true,
+        "maxLength": 512
+      }
+    },
+    {
+      "label": "Список подписантов",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_175yiik",
+        "columns": null
+      },
+      "id": "Field_0x0c0w7",
+      "key": "signerIds",
+      "description": "ID подписантов через запяту. Пример: user1, user2, user3",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "subtype": "date",
+      "dateLabel": "Дата окончания подписания",
+      "label": "Date time",
+      "type": "datetime",
+      "layout": {
+        "row": "Row_0pw2xd0",
+        "columns": null
+      },
+      "id": "Field_1fbloeb",
+      "key": "deadline",
+      "validate": {
+        "required": false
+      },
+      "disallowPassedDates": true
+    },
+    {
+      "label": "Текст файла",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_1edhq8w",
+        "columns": null
+      },
+      "id": "Field_08ylouy",
+      "key": "fileText",
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "type": "default",
+  "id": "documentCreate",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.24.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.21.0",
+  "schemaVersion": 16
+}
