@@ -31,3 +31,9 @@ springdoc:
     path: /docs
   default-produces-media-type: "application/json"
   default-consumes-media-type: "application/json"
+
+camunda:
+  client:
+    baseUrl: http://localhost:8081/engine-rest
+    topicName: user-register
+
